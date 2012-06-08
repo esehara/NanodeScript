@@ -1,0 +1,55 @@
+h2= title
+#form
+  form(action='/',name='postfrom',method='POST',id="newpost")
+    p 投稿者　
+      input(id="showname",name="showname",value=formval.name)
+    p メール　
+      input(id="email",name="email",size="30",value="")
+    p 題名　　
+      input(id="topic",name="topic",size="30",value=formval.topic)
+      input(type="submit",value="投稿(Alt + Enter)")
+      input(type="reset",value="消す(Alt + R)")
+      input(type="hidden",value="",id="parentid",name="parentid",value=formval.parentid)
+    br
+    p 内容(Alt+P)
+    p
+      textarea(id="content",name="content",rows="5",cols="70") !{formval.content}
+    br
+    p URL
+    p
+      input(id="url",name="url",size="70")
+hr
+pre
+  ■：フォロー投稿画面表示　◆：スレッド表示
+#nav
+  a(href="/") 更新
+  　
+  a(href="/page/" + (page + 1)) 次
+hr(class="whiteline")
+#body
+  for post,index in posts
+   .postitem
+      p
+        span.title !{post.title}　
+        投稿者:　
+        span.name(id="name" + post._id) !{post.name}
+        span.date
+         投稿日:
+         !{post.date.getFullYear()}/!{post.date.getMonth()}/!{post.date.getDate()}(!{(["日","月","火","水","木","金","土"])[post.date.getDay()]})!{post.date.getHours()}時!{post.date.getMinutes()}分!{post.date.getSeconds()}秒
+        　<a href="#" onClick="set_post('!{post._id}');">■</a>　<a href="/thread/!{post.parentid}">◆</a>
+      pre(id=post._id)
+        span.text !{quotetext_parser(post.text)}
+        if post.url !== ""
+           \n
+           a(href=post.url) !{post.url}
+      span(id="parentid" + post._id,style="display:none;") !{post.parentid}
+#nav
+  a(href="/") 更新
+  　
+  a(href="/page/" + ((page + 1).toString())) 次
+#header
+  if page === 0
+    script(type="text/javascript",src="/socket.io/socket.io.js")
+    script(type="text/javascript",src="/javascripts/shortcut.js")
+    script(type="text/javascript",src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js")
+    script(type="text/javascript",src="/javascripts/client.js")

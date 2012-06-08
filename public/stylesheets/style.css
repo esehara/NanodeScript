@@ -1,0 +1,59 @@
+body {
+	background-color: #004040;
+	color: #EEEEEE;
+}
+
+a:link {
+	color: #eeffee;
+}
+
+a:visited {
+	color: #dddddd;
+}
+
+form p {
+    padding: 0px;
+    margin: 0px;
+}
+
+.postitem {
+	padding: 12px;
+	padding-left: 0px;
+	padding-right: 0px;
+	border-bottom: solid 2px #EEEEEE;
+}
+
+.postitem.new {
+	background-color: #006060;
+}
+
+.postitem p {
+	margin:0px;
+}
+
+.postitem pre {
+	margin-left: 4em;
+}
+
+.postitem .date {
+	font-size:0.8em;
+}
+
+.quote {
+	color:#999999;
+}
+
+.whiteline {
+	padding:0px;
+	margin:0px;
+	margin-top:6px;
+	border-bottom: 2px solid white;
+}
+
+#nav {
+	background-color:#008080;
+	padding:5px;
+	font-weight: bold;
+	border-bottom: 2px solid #006060;
+	border-left: 10px solid #006060;
+}
