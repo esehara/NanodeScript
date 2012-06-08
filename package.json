@@ -7,8 +7,5 @@
     , "jade": ">= 0.0.1"
     , "socket.io": ">= 0.8.7"
     , "mongoose": ">= 0.0.1"
-    , "hooks": ">= 0.0.1"
-    , "mongodb": ">= 0.0.1"
-    , "socket.io-client" : ">= 0.0.1"
   }
 }
