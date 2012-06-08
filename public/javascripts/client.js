@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost:3000/');
+var socket = io.connect('http://210.152.156.197:3000/');
 socket.emit("debug","Connection Success!");
 
 socket.on("connect",function(){
