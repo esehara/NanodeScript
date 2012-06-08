@@ -118,12 +118,17 @@ function pre_render_index(res,post_id,page) {
 				} else {
 					var set_parentid = post.parentid;
 				}
+
+				if (post.url !== "") {
+					post.text = post.text + "\n\n" + post.url; 
+				}
+
 				var formval = {
 				 name: ""
 				,email: ""
 				,topic: "＞" + post.title
 				,content: add_quote(post.text)
-				,url: post.url
+				,url: ""
 				,parentid: set_parentid 
 			};
 				render_index(res,post_id,formval,page);
@@ -133,10 +138,13 @@ function pre_render_index(res,post_id,page) {
 
 var add_quote = function(text) {
 	var pretext = text.split("\n");
+	var parsetext = [];
 	for (var i = 0,len = pretext.length; i < len; ++i){
-		pretext[i] = "> " + pretext[i];
+		if (pretext[i] !== "") {
+			parsetext[parsetext.length] = "> " + pretext[i];
+		}
 	}
-	return pretext.join("\n") + "\n\n";
+	return parsetext.join("\n") + "\n\n";
 }
 
 var quotetext_parser = function(text) {

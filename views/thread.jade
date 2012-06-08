@@ -13,4 +13,7 @@ hr(class="whiteline")
         　<a href="/post/!{post._id}">■</a>　<a href="/thread/!{post.parentid}">◆</a>
       pre(id=post._id)
         span.text !{quotetext_parser(post.text)}
+        if post.url !== ""
+          !="\n\n"
+          a(href=post.url,id="url" + post._id) !{post.url}
       span(id="parentid" + post._id,style="display:none;") !{post.parentid}

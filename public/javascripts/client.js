@@ -73,10 +73,14 @@ var send_post = function(){
 
 var set_post = function(postid) {
 	var pretext = $("#" + postid).text().split("\n");
+	var parsetext = [];
+	console.log("[Debug] Text Array is:");
+	console.log(pretext);
 	for (var i = 0,len = pretext.length; i < len; ++i){
-		pretext[i] = "> " + pretext[i];
+		if (pretext[i] !== ""){
+			parsetext[parsetext.length] = "> " + pretext[i];
+		}
 	}
-	pretext = pretext.join("\n");
 	if ($("#parentid" + postid).text() == "") {
 		console.log("[Debug] Parentid is none.");
 		$("#parentid").val(postid);
@@ -84,7 +88,9 @@ var set_post = function(postid) {
 		console.log("[Debug] Parentid is find.");
 		$("#parentid").val($("#parentid" + postid).text());
 	}
-	$("#content").val(pretext + "\n\n");
+	
+	parsetext = parsetext.join("\n");
+	$("#content").val(parsetext + "\n\n");
 	$("#topic").val("＞" + $("#name" + postid).text());
 }
 
