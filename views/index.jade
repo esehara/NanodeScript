@@ -34,7 +34,7 @@ hr(class="whiteline")
         投稿者:　
         span.name(id="name" + post._id) !{post.name}
         span.date
-         投稿日:
+         　投稿日:
          !{post.date.getFullYear()}/!{post.date.getMonth()}/!{post.date.getDate()}(!{(["日","月","火","水","木","金","土"])[post.date.getDay()]})!{post.date.getHours()}時!{post.date.getMinutes()}分!{post.date.getSeconds()}秒
         　<a href="#" onClick="set_post('!{post._id}');">■</a>　<a href="/thread/!{post.parentid}">◆</a>
       pre(id=post._id)
