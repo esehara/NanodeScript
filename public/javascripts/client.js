@@ -32,7 +32,7 @@ socket.on("connect",function(){
 					"<p><span class='title'>" + data.title + "</span>　" +
 					"投稿者:　<span class='name' id='name"  + data._id + "'>" + data.name + "</span>" +
 					"　<span class='date'>投稿日:" +
-					data.date.getFullYear() + "/" + data.date.getMonth() + "/" + data.date.getDate() +
+					data.date.getFullYear() + "/" + (data.date.getMonth() + 1) + "/" + data.date.getDate() +
 					"(" + ((["日","月","火","水","木","金","土"])[data.date.getDay()]) + ")" + data.date.getHours() + "時" +
 					data.date.getMinutes() + "分" + data.date.getSeconds() + "秒" +
 					"</span>　<a href='#' onClick='set_post(\"" + data._id + "\")'>■</a>" + 
