@@ -49,8 +49,8 @@ hr(class="whiteline")
         span.text !{quotetext_parser(post.text)}
         if post.url !== ""
           !="\n\n"
-          a(href=post.url,id="url" + post._id) !{post.url}
-      span(id="parentid" + post._id,style="display:none;",target="_blank") !{post.parentid}
+          a(href=post.url,id="url" + post._id,target="_blank") !{post.url}
+      span(id="parentid" + post._id,style="display:none;") !{post.parentid}
 #nav
   a(href="/") 更新
   　
