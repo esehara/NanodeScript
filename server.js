@@ -2,13 +2,16 @@
  * Module dependencies.
  */
 
+// Config
+
+process.env.TZ = "Japan";
+
 // requires
 var express = require('express');
 var fs      = require('fs');
 
 //mongodb server
 var mongoose = require('mongoose');
-
 mongoose.connect("mongodb://localhost/strangeworld");
 
 var Schema   = mongoose.Schema;
