@@ -186,7 +186,7 @@ function render_index(res,post_id,formval,page) {
   	,posts:  posts
   	,quotetext_parser:  quotetext_parser
   	,render_date: function(target_date) {
-		return new Date(("" + target_date).repalce("GMT+0000","GMT-0900"));
+		return new Date(("" + target_date).replace("GMT+0000","GMT-0900"));
 	}
 	,formval: formval
 	,page : page
