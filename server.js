@@ -169,7 +169,7 @@ function render_thread(res,parent_id) {
 				title: bbs.title + "　thread:" + parent_id
 				,posts: posts
 				,quotetext_parser: quotetext_parser
-				,render_date: rander_date
+				,render_date: render_date
 			});
 		});
 }
