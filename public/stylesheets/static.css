@@ -1,0 +1,44 @@
+html, body{
+	padding:0px;
+	margin:0px;
+}
+
+h1,h2,h3,h4,h5,h6,p{
+	padding:0px;
+	margin:0px;
+}
+
+#header {
+	padding:10px;
+	background-color: #003030;
+}
+
+#header p {
+	padding-top:1em;
+	padding-bottom:1em;
+}
+
+#body {
+	margin:12px;
+	border:2px solid #006060;
+}
+
+#body h2 {
+	padding:6px;
+	background-color: #009090;
+}
+
+#body h3 {
+	margin:6px;
+	margin-top:2em;
+	border-bottom:2px solid #006060;
+}
+
+#body p {
+	margin:1em;
+}
+
+#body li {
+	margin:0.5em;
+	border-bottom:1px dashed #006060;
+}
