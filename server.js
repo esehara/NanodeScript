@@ -189,6 +189,7 @@ function render_index(res,post_id,formval,page) {
   	,render_date: render_date
 	,formval: formval
 	,page : page
+	,connect_user: connect_user
   });
   });
 };
