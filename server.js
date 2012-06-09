@@ -194,12 +194,19 @@ console.log("Express server listening on port %d in %s mode", app.address().port
 
 //Socket.io
 
+var connect_user = 0;
+
 var socketio = require("socket.io").listen(app);
 socketio.on('connection',function(socket){
 	console.log("conneted");
+	
+	connect_user ++;
+	socket.emit("user",connect_user);
 
 	socket.on("disconnect",function(){
 		console.log("disonnected");
+		connect_user --;
+		socket.emit("user",connect_user);
 	});
 
 	socket.on("debug",function(data) {

@@ -1,8 +1,14 @@
 var socket = io.connect();
 socket.emit("debug","Connection Success!");
 
+
 socket.on("connect",function(){
 			console.log("[Debug] Connecion Success!");
+
+			socket.on("user",function(data){
+				$("#user_counter").text(data);
+			});
+			
 			socket.on("newpost",function (data){
 			var quotetext_parser = function(text) {
   				text = text.split("\n");
@@ -25,7 +31,7 @@ socket.on("connect",function(){
 					"<div class='postitem new'>" +
 					"<p><span class='title'>" + data.title + "</span>　" +
 					"<span class='name' id='name "  + data._id + "'>投稿者:　" + data.name + "</span>" +
-					"<span class='date'>投稿日:" +
+					"　<span class='date'>投稿日:" +
 					data.date.getFullYear() + "/" + data.date.getMonth() + "/" + data.date.getDate() +
 					"(" + ((["日","月","火","水","木","金","土"])[data.date.getDay()]) + ")" + data.date.getHours() + "時" +
 					data.date.getMinutes() + "分" + data.date.getSeconds() + "秒" +
