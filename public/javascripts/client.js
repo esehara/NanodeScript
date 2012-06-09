@@ -25,7 +25,7 @@ socket.on("connect",function(){
 				if (data.url === "") {
 					var pre_url = "";
 				} else {
-					var pre_url = "\n\n<a href='" + data.url +  "'>" + data.url + "</a>";
+					var pre_url = "\n\n<a href='" + data.url +  "' id='url" + data._id + "' target='_blank'>" + data.url + "</a>";
 				}
 				$("#body").prepend(
 					"<div class='postitem new'>" +
