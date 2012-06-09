@@ -169,6 +169,7 @@ function render_thread(res,parent_id) {
 				title: bbs.title + "　thread:" + parent_id
 				,posts: posts
 				,quotetext_parser: quotetext_parser
+				,render_date: rander_date
 			});
 		});
 }
@@ -185,15 +186,12 @@ function render_index(res,post_id,formval,page) {
      title:  bbs.title
   	,posts:  posts
   	,quotetext_parser:  quotetext_parser
-  	,render_date: function(target_date) {
-		return new Date(("" + target_date).replace("GMT+0000","GMT-0900"));
-	}
+  	,render_date: render_date
 	,formval: formval
 	,page : page
   });
   });
 };
-
 
 app.listen(process.env.PORT || 3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
@@ -240,6 +238,9 @@ socketio.on('connection',function(socket){
 
 });
 
+function render_date(target_date) {
+	return new Date(("" + target_date).replace("GMT+0000","GMT-0900"));
+}
 
 function varitation(post_data) {
 
