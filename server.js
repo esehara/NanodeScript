@@ -185,7 +185,10 @@ function render_index(res,post_id,formval,page) {
      title:  bbs.title
   	,posts:  posts
   	,quotetext_parser:  quotetext_parser
-  	,formval: formval
+  	,render_date: function(target_date) {
+		return new Date(("" + target_date).repalce("GMT+0000","GMT-0900"));
+	}
+	,formval: formval
 	,page : page
   });
   });
