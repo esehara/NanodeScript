@@ -202,10 +202,12 @@ socketio.on('connection',function(socket){
 	
 	connect_user ++;
 	socket.emit("user",connect_user);
+	socket.broadcast.emit("user",connect_user);
 
 	socket.on("disconnect",function(){
 		console.log("disonnected");
 		connect_user --;
+		socket.broadcast.emit("user",connect_user);
 		socket.emit("user",connect_user);
 	});
 
