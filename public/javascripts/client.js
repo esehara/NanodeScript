@@ -30,7 +30,7 @@ socket.on("connect",function(){
 				$("#body").prepend(
 					"<div class='postitem new'>" +
 					"<p><span class='title'>" + data.title + "</span>　" +
-					"<span class='name' id='name "  + data._id + "'>投稿者:　" + data.name + "</span>" +
+					"投稿者:　<span class='name' id='name"  + data._id + "'>" + data.name + "</span>" +
 					"　<span class='date'>投稿日:" +
 					data.date.getFullYear() + "/" + data.date.getMonth() + "/" + data.date.getDate() +
 					"(" + ((["日","月","火","水","木","金","土"])[data.date.getDay()]) + ")" + data.date.getHours() + "時" +
