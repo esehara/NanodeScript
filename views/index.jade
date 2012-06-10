@@ -58,7 +58,7 @@ hr(class="whiteline")
           !="\n\n"
           a(href=post.url,id="url" + post._id,target="_blank") !{post.url}
       pre
-        if (post.reference !== "" || post.reference !== undefined)
+        if (post.reference !== "" && post.reference !== undefined)
             a(href="/post/" + post.reference)参考:!{post.reference_d}
       span(id="parentid" + post._id,style="display:none;") !{post.parentid}
 #nav
