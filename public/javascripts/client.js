@@ -64,6 +64,26 @@ $('#newpost').live("submit",function(){
 	if ($("#content").val() == "") {
 		return false;
 	}
+
+			var send_post = function(){
+					if ($("#content").val() == "") {
+						return false;
+					}
+
+				var postmessage = {
+					name: $('#showname').val()
+					,email: $('#email').val()
+					,topic: $('#topic').val()
+					,content: $('#content').val()
+					,url:$('#url').val()
+					,parentid:$('#parentid').val()
+					,postip:""
+				}
+				reset_postdata();
+				console.log(postmessage);
+				socket.emit('do_post',postmessage);
+			};
+
 	send_post();
 	return false;
 });
@@ -72,25 +92,6 @@ var done_read = function(){
 	new_post_counter = 0;
 	$("title").text(bbs_title);
 	$(".new").removeClass("new");
-}
-
-var send_post = function(){
-	if ($("#content").val() == "") {
-		return false;
-	}
-
-	var postmessage = {
-		 name: $('#showname').val()
-		,email: $('#email').val()
-		,topic: $('#topic').val()
-		,content: $('#content').val()
-		,url:$('#url').val()
-		,parentid:$('#parentid').val()
-		,postip:""
-	}
-	reset_postdata();
-	console.log(postmessage);
-	socket.emit('do_post',postmessage);
 }
 
 var set_post = function(postid) {
@@ -128,6 +129,27 @@ function reset_postdata() {
 //KeyBind
 
 shortcut.add("Alt+Enter",function(){
+
+	var send_post = function(){
+					if ($("#content").val() == "") {
+						return false;
+					}
+
+				var postmessage = {
+					name: $('#showname').val()
+					,email: $('#email').val()
+					,topic: $('#topic').val()
+					,content: $('#content').val()
+					,url:$('#url').val()
+					,parentid:$('#parentid').val()
+					,postip:""
+					}
+
+				reset_postdata();
+				console.log(postmessage);
+				socket.emit('do_post',postmessage);
+			}
+
 	send_post();
 });
 
