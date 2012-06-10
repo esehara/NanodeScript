@@ -44,7 +44,7 @@ socket.on("connect",function(){
 				$("title").text("(*" + new_post_counter + ")" + bbs_title);
 				$("#body").prepend(
 					"<div class='postitem new'>" +
-					"<p>" + "　<a href='/post/" + data._id + "'>▼</a>" + "<span class='title'>" + data.title + "</span>　" +
+					"<p>" + "<a href='/post/" + data._id + "'>▼</a>　" + "<span class='title'>" + data.title + "</span>　" +
 					"投稿者:　<span class='name' id='name"  + data._id + "'>" + data.name + "</span>" +
 					"　<span class='date'>投稿日:</span>" + "<span id='date" + data._id + "' class='date'>" + 
 					data.date.getFullYear() + "/" + (data.date.getMonth() + 1) + "/" + data.date.getDate() +
