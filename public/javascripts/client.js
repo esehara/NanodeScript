@@ -1,4 +1,7 @@
 var socket = io.connect();
+var new_post_counter = 0;
+var bbs_title = "やさしいわーるど＠なので";
+
 socket.emit("debug","Connection Success!");
 
 
@@ -27,6 +30,10 @@ socket.on("connect",function(){
 				} else {
 					var pre_url = "\n\n<a href='" + data.url +  "' id='url" + data._id + "' target='_blank'>" + data.url + "</a>";
 				}
+
+				new_post_counter ++;
+				
+				$("title").text("(*" + new_post_counter + ")" + bbs_title);
 				$("#body").prepend(
 					"<div class='postitem new'>" +
 					"<p><span class='title'>" + data.title + "</span>　" +
@@ -57,6 +64,11 @@ $('#newpost').live("submit",function(){
 	return false;
 });
 
+var done_read = function(){
+	new_post_counter = 0;
+	$("title").text(bbs_title);
+	$(".new").removeClass("new");
+}
 
 var send_post = function(){
 	if ($("#content").val() == "") {

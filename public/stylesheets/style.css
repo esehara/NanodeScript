@@ -3,6 +3,10 @@ body {
 	color: #EEEEEE;
 }
 
+a {
+	text-decoration: underline;
+}
+
 a:link {
 	color: #eeffee;
 }
