@@ -99,7 +99,7 @@ var set_post = function(postid) {
 	console.log("[Debug] Text Array is:");
 	console.log(pretext);
 	for (var i = 0,len = pretext.length; i < len; ++i){
-		if (pretext[i] !== ""){
+		if (pretext[i] !== "" && pretext[i].match(/^(> > )/) === null){
 			parsetext[parsetext.length] = "> " + pretext[i];
 		}
 	}
@@ -137,4 +137,8 @@ shortcut.add("Alt+R",function(){
 
 shortcut.add("Alt+P",function(){
 	document.postfrom.content.focus();
+});
+
+shortcut.add("Alt+A",function(){
+	done_read();
 });
