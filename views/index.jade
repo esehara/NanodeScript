@@ -59,7 +59,8 @@ hr(class="whiteline")
           a(href=post.url,id="url" + post._id,target="_blank") !{post.url}
       pre
         if post.reference !== ""
-          a(href="/post/" + post.reference)参考:!{post.reference_d}
+          if post.reference_d !== ""
+            a(href="/post/" + post.reference)参考:!{post.reference_d}
       span(id="parentid" + post._id,style="display:none;") !{post.parentid}
 #nav
   a(href="/") 更新
