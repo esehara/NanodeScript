@@ -47,7 +47,7 @@ if parmament.linkis
 hr
 p <b><a href="information.html">広報室</a></b>
 pre
-  ■：投稿にレスをする　◆：スレッド表示　●:投稿への個別リンク(Parmament Link)
+  ■：投稿にレスをする　◆：スレッド表示　▼:投稿への個別リンク(Parmanent Link)
   ※：新しい投稿は自動的に表示されます
 hr(class="whiteline")
 #nav
@@ -63,6 +63,7 @@ hr(class="whiteline")
   for post,index in posts
    .postitem
       p
+        <a href="/post/!{post._id}">▼</a>
         span.title !{post.title}　
         投稿者:　
         span.name(id="name" + post._id) !{post.name}
@@ -71,7 +72,7 @@ hr(class="whiteline")
         span.date(id="date" + post._id)
           !{render_date(post.date).getFullYear()}/!{render_date(post.date).getMonth() + 1}/!{render_date(post.date).getDate()}(!{(["日","月","火","水","木","金","土"])[render_date(post.date).getDay()]})!{render_date(post.date).getHours()}時!{post.date.getMinutes()}分!{post.date.getSeconds()}秒
         if page === 0
-            　<a href="#" onClick="set_post('!{post._id}');">■</a>　<a href="/thread/!{post.parentid}">◆</a>　<a href="/post/!{post._id}">●</a>
+            　<a href="#" onClick="set_post('!{post._id}');">■</a>　<a href="/thread/!{post.parentid}">◆</a>　<a href="/post/!{post._id}">
         if page === 1
             　<a href="/post/!{post._id}">■</a>　<a href="/thread/!{post.parentid}">◆</a>　<a href="/post/!{post._id}">●</a>
       pre(id=post._id)
