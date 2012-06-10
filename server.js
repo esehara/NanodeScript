@@ -178,6 +178,10 @@ function render_index(res,post_id,formval,page) {
   console.log(page);
   page = parseInt(page);
   console.log("[Debug] Page is " + page);
+  var counter_data = {
+    connection:connect_counter
+  }
+  
   Post.find({},[],{
   skip:(30 * page),limit: 30 * (page + 1),sort:{date:-1}
   },function(err,posts){
@@ -190,6 +194,7 @@ function render_index(res,post_id,formval,page) {
 	,formval: formval
 	,page : page
 	,connect_user: connect_user
+  	,counter_data: counter_data
   });
   });
 };
@@ -200,14 +205,23 @@ console.log("Express server listening on port %d in %s mode", app.address().port
 //Socket.io
 
 var connect_user = 0;
+var connect_counter = 0;
 
 var socketio = require("socket.io").listen(app);
 socketio.on('connection',function(socket){
 	console.log("conneted");
-	
+	connect_counter ++;
 	connect_user ++;
+
 	socket.emit("user",connect_user);
 	socket.broadcast.emit("user",connect_user);
+	
+	var counter_data = {
+		connection:connect_counter
+	}
+
+	socket.emit("counter",counter_data);
+	socket.broadcast.emit("counter",counter_data);
 
 	socket.on("disconnect",function(){
 		console.log("disonnected");

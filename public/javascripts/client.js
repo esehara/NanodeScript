@@ -12,6 +12,10 @@ socket.on("connect",function(){
 				$("#user_counter").text(data);
 			});
 			
+			socket.on("counter",function(data){
+				$("#connect_counter").text(data.connection);
+			});
+
 			socket.on("newpost",function (data){
 			var quotetext_parser = function(text) {
   				text = text.split("\n");
