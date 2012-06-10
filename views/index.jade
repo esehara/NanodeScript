@@ -72,7 +72,7 @@ hr(class="whiteline")
         span.date(id="date" + post._id)
           !{render_date(post.date).getFullYear()}/!{render_date(post.date).getMonth() + 1}/!{render_date(post.date).getDate()}(!{(["日","月","火","水","木","金","土"])[render_date(post.date).getDay()]})!{render_date(post.date).getHours()}時!{post.date.getMinutes()}分!{post.date.getSeconds()}秒
         if page === 0
-            　<a href="#" onClick="set_post('!{post._id}');">■</a>　<a href="/thread/!{post.parentid}">◆</a>　<a href="/post/!{post._id}">
+            　<a href="#" onClick="set_post('!{post._id}');">■</a>　<a href="/thread/!{post.parentid}">◆</a>
         if page === 1
             　<a href="/post/!{post._id}">■</a>　<a href="/thread/!{post.parentid}">◆</a>　<a href="/post/!{post._id}">●</a>
       pre(id=post._id)
