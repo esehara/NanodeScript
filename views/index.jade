@@ -10,6 +10,8 @@ h2= title
       input(type="submit",value="投稿(Alt + Enter)")
       input(type="reset",value="消す(Alt + R)")
       input(type="hidden",value="",id="parentid",name="parentid",value=formval.parentid)
+      input(type="hidden",value="",id="reference",name="reference",value=formval.reference)
+      input(type="hidden",value="",id="reference_d",name="reference_d",value=formval.reference_d)
     br
     p 内容(Alt+P)
     p
@@ -43,17 +45,21 @@ hr(class="whiteline")
         投稿者:　
         span.name(id="name" + post._id) !{post.name}
         span.date
-         　投稿日:
-         !{render_date(post.date).getFullYear()}/!{render_date(post.date).getMonth() + 1}/!{render_date(post.date).getDate()}(!{(["日","月","火","水","木","金","土"])[render_date(post.date).getDay()]})!{render_date(post.date).getHours()}時!{post.date.getMinutes()}分!{post.date.getSeconds()}秒
-         if page === 0
+          　投稿日:
+        span.date(id="date" + post._id)
+          !{render_date(post.date).getFullYear()}/!{render_date(post.date).getMonth() + 1}/!{render_date(post.date).getDate()}(!{(["日","月","火","水","木","金","土"])[render_date(post.date).getDay()]})!{render_date(post.date).getHours()}時!{post.date.getMinutes()}分!{post.date.getSeconds()}秒
+        if page === 0
             　<a href="#" onClick="set_post('!{post._id}');">■</a>　<a href="/thread/!{post.parentid}">◆</a>
-         if page === 1
+        if page === 1
             　<a href="/post/!{post._id}">■</a>　<a href="/thread/!{post.parentid}">◆</a>
       pre(id=post._id)
         span.text !{quotetext_parser(post.text)}
         if post.url !== ""
           !="\n\n"
           a(href=post.url,id="url" + post._id,target="_blank") !{post.url}
+      pre
+        if post.reference !== ""
+          a(href="/post/" + post.reference)参考:!{post.reference_d}
       span(id="parentid" + post._id,style="display:none;") !{post.parentid}
 #nav
   a(href="/") 更新

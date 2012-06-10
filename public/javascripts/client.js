@@ -34,7 +34,11 @@ socket.on("connect",function(){
 				} else {
 					var pre_url = "\n\n<a href='" + data.url +  "' id='url" + data._id + "' target='_blank'>" + data.url + "</a>";
 				}
-
+				if (data.reference == "") {
+					var pre_reference = "";
+				} else {
+					var pre_reference = "<a href='/post/" + data.reference + "'>参考:" + data.reference_d + "</a>";
+				}
 				new_post_counter ++;
 				
 				$("title").text("(*" + new_post_counter + ")" + bbs_title);
@@ -42,13 +46,13 @@ socket.on("connect",function(){
 					"<div class='postitem new'>" +
 					"<p><span class='title'>" + data.title + "</span>　" +
 					"投稿者:　<span class='name' id='name"  + data._id + "'>" + data.name + "</span>" +
-					"　<span class='date'>投稿日:" +
+					"　<span class='date'>投稿日:</span>" + "<span id='dateid" + data._id + "' class='date'>" + 
 					data.date.getFullYear() + "/" + (data.date.getMonth() + 1) + "/" + data.date.getDate() +
 					"(" + ((["日","月","火","水","木","金","土"])[data.date.getDay()]) + ")" + data.date.getHours() + "時" +
 					data.date.getMinutes() + "分" + data.date.getSeconds() + "秒" +
 					"</span>　<a href='#' onClick='set_post(\"" + data._id + "\")'>■</a>" + 
 					"　<a href='/thread/" + data.parentid + "'>◆</a>" + "</p>" +
-					"<pre id='" + data._id + "'>" + data.text + pre_url + "</pre>" +
+					"<pre id='" + data._id + "'>" + data.text + pre_url + "</pre>" + "<pre>" + pre_reference + "</pre>" + 
 					"<span id='parentid" + data._id + "' style='display:none'>" + data.parentid.replace("\"","") + "<span>" +   
 					"</div>"
 				);
@@ -78,6 +82,8 @@ $('#newpost').live("submit",function(){
 					,url:$('#url').val()
 					,parentid:$('#parentid').val()
 					,postip:""
+					,reference:$("#reference").val()
+					,reference_d:$("#reference_d").val()
 				}
 				reset_postdata();
 				console.log(postmessage);
@@ -112,6 +118,9 @@ var set_post = function(postid) {
 		$("#parentid").val($("#parentid" + postid).text());
 	}
 	
+	$("#reference").val(postid);
+	$("#reference_d").val($("#date" + postid).text());
+
 	parsetext = parsetext.join("\n");
 	$("#content").val(parsetext + "\n\n");
 	$("#topic").val("＞" + $("#name" + postid).text());
@@ -124,6 +133,8 @@ function reset_postdata() {
 	$('#content').val("");
 	$('#url').val("");
 	$('#parentid').val("");
+	$('#reference').val("");
+	$('#reference_d').val("");
 }
 
 //KeyBind
@@ -143,7 +154,9 @@ shortcut.add("Alt+Enter",function(){
 					,url:$('#url').val()
 					,parentid:$('#parentid').val()
 					,postip:""
-					}
+					,reference:$('#reference').val()
+					,reference_d:$('#reference_d').val()
+				}
 
 				reset_postdata();
 				console.log(postmessage);

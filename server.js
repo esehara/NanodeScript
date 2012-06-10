@@ -26,7 +26,8 @@ var PostData = new Schema({
 	, url:     {type:String,default: ""}
 	, parentid:{type:String,default: ""}
 	, postip:  {type:String,default: ""}
-	, referesence : {type:String,default:""}
+	, reference : {type:String,default:""}
+	, reference_d : {type:String,default:""}
 });
 
 mongoose.model('post',PostData)
@@ -86,6 +87,8 @@ app.get('/0/',function(req,res){
 		,parentid:""
 		,content:""
 		,url:""
+		,reference:""
+		,reference_d:""
 	}
 
   	var counter_data = {
@@ -132,6 +135,8 @@ function pre_render_index(res,post_id,page) {
 		,parentid:""
 		,content:""
 		,url:""
+		,reference:""
+		,reference_d:""
 	}
 
 	if (typeof post_id === "undefined") {
@@ -159,10 +164,18 @@ function pre_render_index(res,post_id,page) {
 				,content: add_quote(post.text)
 				,url: ""
 				,parentid: set_parentid 
-			};
+				,reference: post._id
+				,reference_d: string_date(render_date(post.date))
+				};
 				render_index(res,post_id,formval,page);
 		}});
 	}
+}
+
+var string_date = function(date) {
+	return date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate() +
+			"(" + ((["日","月","火","水","木","金","土"])[date.getDay()]) + ")" + date.getHours() + "時" +
+			date.getMinutes() + "分" + date.getSeconds() + "秒"
 }
 
 var add_quote = function(text) {
@@ -269,6 +282,8 @@ socketio.on('connection',function(socket){
 			,email: data.email
 			,parentid : data.parentid
 			,postip:""
+			,reference:data.reference
+			,reference_d:data.reference_d
 		});
 
 		if (broadcast_post !== false) {
@@ -311,6 +326,8 @@ function save_post(post_data) {
 	post.url   = escapeHTML(post_data.url);
 	post.parentid = escapeHTML(post_data.parentid);
 	post.postip   = escapeHTML(post_data.postip);
+	post.reference = escapeHTML(post_data.reference);
+	post.reference_d = escapeHTML(post_data.reference_d);
 	if (post.parentid === "") {
 		post.parentid = post._id;
 	}
@@ -338,6 +355,8 @@ app.post('/',function(req,res){
 			,url   : req.body.url
 			,parentid : req.body.parentid
 			,postip:getClientIp(req)
+			,reference: req.body.reference
+			,reference_d: req.body.reference_d
 		}
 	}
 	save_post(post_data);
