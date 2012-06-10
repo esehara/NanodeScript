@@ -44,7 +44,7 @@ socket.on("connect",function(){
 				$("title").text("(*" + new_post_counter + ")" + bbs_title);
 				$("#body").prepend(
 					"<div class='postitem new'>" +
-					"<p><span class='title'>" + data.title + "</span>　" +
+					"<p>" + "　<a href='/post/" + data._id + "'>▼</a>" + "<span class='title'>" + data.title + "</span>　" +
 					"投稿者:　<span class='name' id='name"  + data._id + "'>" + data.name + "</span>" +
 					"　<span class='date'>投稿日:</span>" + "<span id='date" + data._id + "' class='date'>" + 
 					data.date.getFullYear() + "/" + (data.date.getMonth() + 1) + "/" + data.date.getDate() +
@@ -52,7 +52,6 @@ socket.on("connect",function(){
 					data.date.getMinutes() + "分" + data.date.getSeconds() + "秒" +
 					"</span>　<a href='#' onClick='set_post(\"" + data._id + "\")'>■</a>" + 
 					"　<a href='/thread/" + data.parentid + "'>◆</a>" + 
-					"　<a href='/post/" + data._id + "'>●</a>" + 
 					"</p>" +
 					"<pre id='" + data._id + "'>" + data.text + pre_url + "</pre>" + "<pre>" + pre_reference + "</pre>" + 
 					"<span id='parentid" + data._id + "' style='display:none'>" + data.parentid.replace("\"","") + "<span>" +   
