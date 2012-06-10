@@ -78,6 +78,32 @@ app.get('/page/:page',function(req,res){
 	pre_render_index(res,undefined,page);
 });
 
+app.get('/0/',function(req,res){
+	var null_formval = {
+		 name: ""
+		,email: ""
+		,topic: ""
+		,parentid:""
+		,content:""
+		,url:""
+	}
+
+  	var counter_data = {
+    	connection:connect_counter
+  	}
+
+	res.render('index', {
+     title:  bbs.title
+  	,posts:  []
+  	,quotetext_parser:  quotetext_parser
+  	,render_date: render_date
+	,formval: null_formval
+	,page : 0
+	,connect_user: connect_user
+  	,counter_data: counter_data
+  });
+});
+
 function getClientIp(req) {
   var ipAddress;
   // Amazon EC2 / Heroku workaround to get real client IP
