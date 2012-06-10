@@ -138,13 +138,16 @@ function pre_render_index(res,post_id,page) {
 		,reference:""
 		,reference_d:""
 	}
-
+	var parmament = {
+		 linkis:false
+		,post:undefined
+	}
 	if (typeof post_id === "undefined") {
-		render_index(res,post_id,null_formval,page);
+		render_index(res,post_id,null_formval,page,parmament);
 	} else {
 		Post.findOne({_id:post_id},function(err,post){
 			if (post === null) {
-				render_index(res,post_id,null_formval,page);
+				render_index(res,post_id,null_formval,page,parmament);
 			} else {
 				console.log(post);
 				if (post.parentid !== "") {
@@ -156,7 +159,8 @@ function pre_render_index(res,post_id,page) {
 				if (post.url !== "") {
 					post.text = post.text + "\n\n" + post.url; 
 				}
-
+				parmament.linkis = true;
+				parmament.post = post;
 				var formval = {
 				 name: ""
 				,email: ""
@@ -167,7 +171,7 @@ function pre_render_index(res,post_id,page) {
 				,reference: post._id
 				,reference_d: string_date(render_date(post.date))
 				};
-				render_index(res,post_id,formval,page);
+				render_index(res,post_id,formval,page,parmament);
 		}});
 	}
 }
@@ -213,7 +217,7 @@ function render_thread(res,parent_id) {
 		});
 }
 
-function render_index(res,post_id,formval,page) {
+function render_index(res,post_id,formval,page,parmament) {
   console.log(page);
   page = parseInt(page);
   console.log("[Debug] Page is " + page);
@@ -234,6 +238,7 @@ function render_index(res,post_id,formval,page) {
 	,page : page
 	,connect_user: connect_user
   	,counter_data: counter_data
+	,parmament:parmament
   });
   });
 };

@@ -48,6 +48,23 @@ p.user {
 	font-size:0.8em;
 }
 
+#post_parmament {
+	margin:12px;
+	border:6px solid #002020;
+}
+
+#post_parmament h4 {
+	background-color:#002020;
+	margin:0px;
+	padding:12px;
+}
+
+#post_parmament .postitem {
+	margin:0px;
+	padding:12px;
+	border:none;
+}
+
 .quote {
 	color:#999999;
 }

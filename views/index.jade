@@ -1,4 +1,26 @@
 h2= title
+if parmament.linkis
+  #post_parmament
+    h4 下の投稿を参照しています
+    .postitem
+      p
+        span.title !{parmament.post.title}　
+        投稿者:　
+        span.name(id="name" + parmament.post._id) !{parmament.post.name}
+        span.date
+          　投稿日:
+        span.date(id="date" + parmament.post._id)
+          !{render_date(parmament.post.date).getFullYear()}/!{render_date(parmament.post.date).getMonth() + 1}/!{render_date(parmament.post.date).getDate()}(!{(["日","月","火","水","木","金","土"])[render_date(parmament.post.date).getDay()]})!{render_date(parmament.post.date).getHours()}時!{parmament.post.date.getMinutes()}分!{parmament.post.date.getSeconds()}秒
+          <a href="/thread/!{parmament.post.parentid}">◆</a>
+      pre(id=parmament.post._id)
+        span.text !{quotetext_parser(parmament.post.text)}
+        if parmament.post.url !== ""
+          !="\n\n"
+          a(href=parmament.post.url,id="url" + parmament.post._id,target="_blank") !{parmament.post.url}
+      pre
+        if (parmament.post.reference !== "" && parmament.post.reference !== undefined)
+            a(href="/post/" + parmament.post.reference)参考:!{parmament.post.reference_d}
+      span(id="parentid" + parmament.post._id,style="display:none;") !{parmament.post.parentid}
 #form
   form(action='/',name='postfrom',method='POST',id="newpost")
     p 投稿者　
@@ -25,7 +47,7 @@ h2= title
 hr
 p <b><a href="information.html">広報室</a></b>
 pre
-  ■：フォロー投稿画面表示　◆：スレッド表示
+  ■：投稿にレスをする　◆：スレッド表示　●:投稿への個別リンク(Parmament Link)
   ※：新しい投稿は自動的に表示されます
 hr(class="whiteline")
 #nav
@@ -49,9 +71,9 @@ hr(class="whiteline")
         span.date(id="date" + post._id)
           !{render_date(post.date).getFullYear()}/!{render_date(post.date).getMonth() + 1}/!{render_date(post.date).getDate()}(!{(["日","月","火","水","木","金","土"])[render_date(post.date).getDay()]})!{render_date(post.date).getHours()}時!{post.date.getMinutes()}分!{post.date.getSeconds()}秒
         if page === 0
-            　<a href="#" onClick="set_post('!{post._id}');">■</a>　<a href="/thread/!{post.parentid}">◆</a>
+            　<a href="#" onClick="set_post('!{post._id}');">■</a>　<a href="/thread/!{post.parentid}">◆</a>　<a href="/post/!{post._id}">●</a>
         if page === 1
-            　<a href="/post/!{post._id}">■</a>　<a href="/thread/!{post.parentid}">◆</a>
+            　<a href="/post/!{post._id}">■</a>　<a href="/thread/!{post.parentid}">◆</a>　<a href="/post/!{post._id}">●</a>
       pre(id=post._id)
         span.text !{quotetext_parser(post.text)}
         if post.url !== ""

@@ -51,7 +51,9 @@ socket.on("connect",function(){
 					"(" + ((["日","月","火","水","木","金","土"])[data.date.getDay()]) + ")" + data.date.getHours() + "時" +
 					data.date.getMinutes() + "分" + data.date.getSeconds() + "秒" +
 					"</span>　<a href='#' onClick='set_post(\"" + data._id + "\")'>■</a>" + 
-					"　<a href='/thread/" + data.parentid + "'>◆</a>" + "</p>" +
+					"　<a href='/thread/" + data.parentid + "'>◆</a>" + 
+					"　<a href='/post/" + data._id + "'>●</a>" + 
+					"</p>" +
 					"<pre id='" + data._id + "'>" + data.text + pre_url + "</pre>" + "<pre>" + pre_reference + "</pre>" + 
 					"<span id='parentid" + data._id + "' style='display:none'>" + data.parentid.replace("\"","") + "<span>" +   
 					"</div>"
@@ -135,6 +137,7 @@ function reset_postdata() {
 	$('#parentid').val("");
 	$('#reference').val("");
 	$('#reference_d').val("");
+	$('#post_parmament').remove();
 }
 
 //KeyBind
