@@ -104,7 +104,8 @@ app.get('/0/',function(req,res){
 	,page : 0
 	,connect_user: connect_user
   	,counter_data: counter_data
-  });
+  	,parmament:{linkis: false}
+	});
 });
 
 function getClientIp(req) {
