@@ -169,7 +169,7 @@ var add_quote = function(text) {
 	var pretext = text.split("\n");
 	var parsetext = [];
 	for (var i = 0,len = pretext.length; i < len; ++i){
-		if (pretext[i] !== "") {
+		if (pretext[i] !== "" || pretext[i].match(/^(> > > )/) === null {
 			parsetext[parsetext.length] = "> " + pretext[i];
 		}
 	}
