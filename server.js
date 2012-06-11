@@ -105,8 +105,8 @@ function render_log_index(res) {
 }
 
 function render_log_show(res,show_date) {
-	var start_date = new Date(show_date[1],parseInt(show_date[2]) - 1,parseInt(show_date[3]) - 2,15,0,0);
-	var next_date = new Date(show_date[1],parseInt(show_date[2]) - 1,parseInt(show_date[3]) - 1,9,0,0);
+	var start_date = new Date(show_date[1],parseInt(show_date[2]) - 1,parseInt(show_date[3]) - 1,9,0,0);
+	var next_date = new Date(show_date[1],parseInt(show_date[2]) - 1,parseInt(show_date[3]) + 1,9,0,0);
 	Post.find({
 				date:{
 						 $gte: start_date
