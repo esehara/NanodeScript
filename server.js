@@ -106,7 +106,7 @@ function render_log_index(res) {
 
 function render_log_show(res,show_date) {
 	var start_date = new Date(show_date[1],parseInt(show_date[2]) - 1,parseInt(show_date[3]) - 1,15,0,0);
-	var next_date = new Date(show_date[1],parseInt(show_date[2]) - 1,parseInt(show_date[3]) + 1,15,0,0);
+	var next_date = new Date(show_date[1],parseInt(show_date[2]) - 1,parseInt(show_date[3]),15,0,0);
 	Post.find({
 				date:{
 						 $gte: start_date
@@ -128,10 +128,11 @@ function render_log_show(res,show_date) {
 function log_dates(startdate) {
 	dates = [];
 	today = new Date;
+	today = new Date(today.getFullYear(),today.getMonth(),today.getDate(),1,0,0);
 	while(today.getDate() !== startdate.getDate()
 		|| today.getMonth() !== startdate.getMonth()) {
 		dates[dates.length] = today;
-		today = new Date(today.getFullYear(),today.getMonth(),today.getDate() - 1);
+		today = new Date(today.getFullYear(),today.getMonth(),today.getDate() - 1,1,0,0);
 	}
 	return dates;
 }
