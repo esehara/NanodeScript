@@ -104,10 +104,10 @@ function render_log_index(res) {
 }
 
 function render_log_show(res,show_date) {
-	var next_date = new Date(show_date[1],parseInt(show_date[2]) - 1,parseInt(show_date[3]) + 1);
+	var next_date = new Date(show_date[1],parseInt(show_date[2]) - 1,parseInt(show_date[3]) - 1,9,0,0);
 	Post.find({
 				date:{
-						 $gte: new Date(show_date[1],parseInt(show_date[2]) - 1,show_date[3])
+						 $gte: new Date(show_date[1],parseInt(show_date[2]) - 1,show_date[3] - 2,15,0,0)
 						,$lte: next_date
 					 }
 			  },[],{sort:{date:-1}},
