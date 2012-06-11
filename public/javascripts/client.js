@@ -196,3 +196,11 @@ shortcut.add("Alt+P",function(){
 shortcut.add("Alt+A",function(){
 	done_read();
 });
+
+shortcut.add("Alt+1",function(){
+	location.href="/";
+});
+
+shortcut.add("Alt+0",function(){
+	location.href="/0/";
+});
