@@ -73,6 +73,67 @@ app.get('/thread/:id',function(req,res){
 	render_thread(res,post_id);
 });
 
+app.get('/log/',function(req, res) {
+	render_log_index(res);
+});
+
+app.get('/log/:date',function(req,res) {
+	var post_date = req.params.date;
+	if (post_date.match(/\d{8}/)) {
+		render_log_show(res,post_date.match(/(\d{4})(\d{2})(\d{2})/));
+	} else {
+		render_log_index(res);
+	}
+});
+
+function render_log_index(res) {
+	Post.findOne({},function(err,post) {
+		res.render('log_index',{
+			title:bbs.title
+			,logs_date: log_dates(post.date)
+			,plus_zero: function(inte) {
+				var str = inte.toString();
+				if (str.length === 1) {
+					return "0" + str
+				} else {
+					return str
+				}
+			}
+		});
+	});
+}
+
+function render_log_show(res,show_date) {
+	var next_date = new Date(show_date[1],parseInt(show_date[2]) - 1,parseInt(show_date[3]) + 1);
+	Post.find({
+				date:{
+						 $gte: new Date(show_date[1],parseInt(show_date[2]) - 1,show_date[3])
+						,$lte: next_date
+					 }
+			  },[],{sort:{date:-1}},
+		function(err,posts){
+			console.log(posts);
+			res.render('log_show',{
+				title: bbs.title + "　Date:" + show_date[1] + "/" + show_date[2] + "/" + show_date[3]
+				,posts: posts
+				,quotetext_parser: quotetext_parser
+				,do_link_url: do_link_url
+				,render_date: render_date
+			});
+		});
+}
+
+function log_dates(startdate) {
+	dates = [];
+	today = new Date;
+	while(today.getDate() !== startdate.getDate()
+		|| today.getMonth() !== startdate.getMonth()) {
+		dates[dates.length] = today;
+		today = new Date(today.getFullYear(),today.getMonth(),today.getDate() - 1);
+	}
+	return dates;
+}
+
 app.get('/page/:page',function(req,res){
 	var page = req.params.page;
 	console.log("[Debug] Page is Get " + page);
@@ -359,7 +420,6 @@ function do_link_url(str) {
 		var pre_replace = [];
 		for (var i = 0,len = url.length;i < len; ++i) {
 			if (str.match(url[i])) {
-				console.log("[Debug] Replace Url");
 				str = str.replace(url[i], "<" + pre_replace.length + ">");
 				pre_replace[pre_replace.length] = url[i];
 			}

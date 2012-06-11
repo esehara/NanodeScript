@@ -1,0 +1,9 @@
+h2= title
+  　Log一覧
+#nav
+ a(href="/")戻る
+ul
+  for date in logs_date
+    li
+      a(href="/log/" + date.getFullYear() + (plus_zero(date.getMonth() + 1)) + (plus_zero(date.getDate())))
+        !{date.getFullYear()}/!{date.getMonth() + 1}/!{date.getDate()}
