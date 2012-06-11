@@ -91,6 +91,7 @@ function render_log_index(res) {
 		res.render('log_index',{
 			title:bbs.title
 			,logs_date: log_dates(post.date)
+			,render_date: render_date
 			,plus_zero: function(inte) {
 				var str = inte.toString();
 				if (str.length === 1) {
@@ -104,10 +105,11 @@ function render_log_index(res) {
 }
 
 function render_log_show(res,show_date) {
+	var start_date = new Date(show_date[1],parseInt(show_date[2]) - 1,parseInt(show_date[3]) - 2,15,0,0);
 	var next_date = new Date(show_date[1],parseInt(show_date[2]) - 1,parseInt(show_date[3]) - 1,9,0,0);
 	Post.find({
 				date:{
-						 $gte: new Date(show_date[1],parseInt(show_date[2]) - 1,show_date[3] - 2,15,0,0)
+						 $gte: start_date
 						,$lte: next_date
 					 }
 			  },[],{sort:{date:-1}},
