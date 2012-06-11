@@ -151,7 +151,7 @@ function do_link_url(str) {
 		}
 
 		for (var i = 0,len = pre_replace.length;i < len; ++i) {
-			str = str.replace("<" + i + ">","<a href='" + pre_replace[i] + "'>" + pre_replace[i] + "</a>");
+			str = str.replace("<" + i + ">","<a href='" + pre_replace[i] + "' target='_blank'>" + pre_replace[i] + "</a>");
 		}
 	}
 	return str;
