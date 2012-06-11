@@ -98,6 +98,7 @@ app.get('/0/',function(req,res){
 	res.render('index', {
      title:  bbs.title
   	,posts:  []
+	,do_link_url: do_link_url
   	,quotetext_parser:  quotetext_parser
   	,render_date: render_date
 	,formval: null_formval
@@ -213,6 +214,7 @@ function render_thread(res,parent_id) {
 				title: bbs.title + "　thread:" + parent_id
 				,posts: posts
 				,quotetext_parser: quotetext_parser
+				,do_link_url: do_link_url
 				,render_date: render_date
 			});
 		});
@@ -233,6 +235,7 @@ function render_index(res,post_id,formval,page,parmament) {
   res.render('index', {
      title:  bbs.title
   	,posts:  posts
+	,do_link_url: do_link_url
   	,quotetext_parser:  quotetext_parser
   	,render_date: render_date
 	,formval: formval
@@ -348,6 +351,25 @@ function save_post(post_data) {
 			}
 	});
 	return post;
+}
+
+function do_link_url(str) {
+	var url = str.match(/http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-.\/?%&=]*)?/g);
+	if (url) {
+		var pre_replace = [];
+		for (var i = 0,len = url.length;i < len; ++i) {
+			if (str.match(url[i])) {
+				console.log("[Debug] Replace Url");
+				str = str.replace(url[i], "<" + pre_replace.length + ">");
+				pre_replace[pre_replace.length] = url[i];
+			}
+		}
+
+		for (var i = 0,len = pre_replace.length;i < len; ++i) {
+			str = str.replace("<" + i + ">","<a href='" + pre_replace[i] + "'>" + pre_replace[i] + "</a>");
+		}
+	}
+	return str;
 }
 
 app.post('/',function(req,res){

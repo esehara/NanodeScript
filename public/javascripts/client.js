@@ -28,7 +28,7 @@ socket.on("connect",function(){
   				}
 				console.log(data);
 				data.date = new Date(data.date);
-				data.text = quotetext_parser(data.text);
+				data.text = do_link_url(quotetext_parser(data.text));
 				if (data.url === "") {
 					var pre_url = "";
 				} else {
@@ -40,7 +40,6 @@ socket.on("connect",function(){
 					var pre_reference = "<a href='/post/" + data.reference + "'>参考:" + data.reference_d + "</a>";
 				}
 				new_post_counter ++;
-				
 				$("title").text("(*" + new_post_counter + ")" + bbs_title);
 				$("#body").prepend(
 					"<div class='postitem new'>" +
@@ -139,6 +138,24 @@ function reset_postdata() {
 	$('#post_parmament').remove();
 }
 
+function do_link_url(str) {
+	var url = str.match(/http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-.\/?%&=]*)?/g);
+	if (url) {
+		var pre_replace = [];
+		for (var i = 0,len = url.length;i < len; ++i) {
+			if (str.match(url[i])) {
+				console.log("[Debug] Replace Url");
+				str = str.replace(url[i], "<" + pre_replace.length + ">");
+				pre_replace[pre_replace.length] = url[i];
+			}
+		}
+
+		for (var i = 0,len = pre_replace.length;i < len; ++i) {
+			str = str.replace("<" + i + ">","<a href='" + pre_replace[i] + "'>" + pre_replace[i] + "</a>");
+		}
+	}
+	return str;
+}
 //KeyBind
 
 shortcut.add("Alt+Enter",function(){
