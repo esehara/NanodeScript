@@ -58,18 +58,18 @@ socket.on("connect",function(){
 				new_post_counter ++;
 				$("title").text("(*" + new_post_counter + ")" + bbs_title);
 				$("#body").prepend(
-					"<div class='postitem new'>" +
-					"<div id='post" + data._id + "'>" + 
+					"<div id='post" + data._id + "' class='postitem new'>" + 
 					"<p>" + "<a href='/post/" + data._id + "'>▼</a>" + 
-					" <a id='score" + data._id + "' onclick='do_score(\"" + data._id + "\")'>[" + data.score + "]</a>　" + 
-					"<span class='title'>" + data.title + "</span>　" +
+					" <a id='score" + data._id + "' onclick='do_score(\"" + data._id + "\")'>[" + data.score + "]</a>" + 
+					" <span class='title'>" + data.title + "</span> " +
 					"投稿者:　<span class='name' id='name"  + data._id + "'>" + data.name + "</span>" +
 					"　<span class='date'>投稿日:</span>" + "<span id='date" + data._id + "' class='date'>" + 
 					data.date.getFullYear() + "/" + (data.date.getMonth() + 1) + "/" + data.date.getDate() +
 					"(" + ((["日","月","火","水","木","金","土"])[data.date.getDay()]) + ")" + data.date.getHours() + "時" +
 					data.date.getMinutes() + "分" + data.date.getSeconds() + "秒" +
 					"</span>　<a href='#' onClick='set_post(\"" + data._id + "\")'>■</a>" + 
-					"　<a href='/thread/" + data.parentid + "'>◆</a>" + 
+					"　<a href='/thread/" + data.parentid + "'>◆</a>" +
+					"　<a onClick='done_this_read(\"" + data._id + "\")' id='read" + data._id + "' class='read_link'>読</a>" +
 					"</p>" +
 					"<pre id='" + data._id + "'>" + data.text + pre_url + "</pre>" + "<pre>" + pre_reference + "</pre>" + 
 					"<span id='parentid" + data._id + "' style='display:none'>" + data.parentid.replace("\"","") + "<span>" +   
@@ -118,7 +118,20 @@ var done_read = function(){
 	new_post_counter = 0;
 	$("title").text(bbs_title);
 	$(".new").removeClass("new");
+	$(".read_link").remove();
 }
+
+var done_this_read = function(postid) {
+	new_post_counter --;
+	$("#post" + postid).removeClass("new");
+	$("#read" + postid).remove();
+	if(new_post_counter > 0){
+		$("title").text("(" + new_post_counter + ")" + bbs_title);
+	} else {
+		$("title").text(bbs_title);
+	}
+}
+
 
 var do_score = function(postid) {
 	socket.emit("do_score",postid);

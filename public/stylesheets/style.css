@@ -32,7 +32,7 @@ p.user {
 
 .postitem {
 	padding: 12px;
-	padding-left: 0px;
+	padding-left: 12px;
 	padding-right: 0px;
 	border-bottom: solid 2px #EEEEEE;
 }

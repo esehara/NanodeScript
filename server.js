@@ -145,11 +145,11 @@ function render_log_show(res,show_date) {
 function log_dates(startdate) {
 	dates = [];
 	today = new Date;
-	today = new Date(today.getFullYear(),today.getMonth(),today.getDate(),today.getHours() + 10,0,0);
+	today = new Date(today.getFullYear(),today.getMonth(),today.getDate(),today.getHours() + 16,0,0);
 	while(today.getDate() !== startdate.getDate()
 		|| today.getMonth() !== startdate.getMonth()) {
 		dates[dates.length] = today;
-		today = new Date(today.getFullYear(),today.getMonth(),today.getDate() - 1,10,0,0);
+		today = new Date(today.getFullYear(),today.getMonth(),today.getDate() - 1,16,0,0);
 	}
 	return dates;
 }
