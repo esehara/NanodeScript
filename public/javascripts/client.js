@@ -61,7 +61,7 @@ socket.on("connect",function(){
 					"<div id='post" + data._id + "' class='postitem new'>" + 
 					"<p>" + "<a href='/post/" + data._id + "'>▼</a>" + 
 					" <a id='score" + data._id + "' onclick='do_score(\"" + data._id + "\")'>[" + data.score + "]</a>" + 
-					" <span class='title'>" + data.title + "</span> " +
+					"<span class='title'>" + data.title + "</span>　" +
 					"投稿者:　<span class='name' id='name"  + data._id + "'>" + data.name + "</span>" +
 					"　<span class='date'>投稿日:</span>" + "<span id='date" + data._id + "' class='date'>" + 
 					data.date.getFullYear() + "/" + (data.date.getMonth() + 1) + "/" + data.date.getDate() +
