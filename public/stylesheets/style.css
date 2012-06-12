@@ -1,3 +1,8 @@
+html,body {
+	padding:0px;
+	margin:0px;
+}
+
 body {
 	background-color: #004040;
 	color: #EEEEEE;
@@ -74,7 +79,32 @@ p.user {
 	margin:0px;
 	margin-top:6px;
 	margin-bottom:6px;
-	border-bottom: 2px solid white;
+	border-bottom: 1px solid white;
+}
+
+p.link{
+	background-color: #006060;
+	margin:0px;
+	padding:5px;
+	font-size:80%;
+}
+
+h2 {
+	margin:0px;
+	background-color: #002020;
+}
+
+#form {
+	margin:10px;
+}
+
+#explain{
+	padding:12px;
+}
+
+#body {
+	margin-left:12px;
+	margin-right:12px;
 }
 
 #nav {

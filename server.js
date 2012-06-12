@@ -38,10 +38,22 @@ var app = module.exports = express.createServer();
 var bbs     = {
 	 title:"やさしいわーるど＠なので"
 	,server: new Date()
-}
+	,link  : [
+				{name:"本店",url:"http://strangeworld-honten.com/cgi-bin/bbs.cgi"},
+				{name:"暫暫",url:"http://zangzang.poox360.net/cgi-bin/captbbs.cgi"},
+				{name:"＠苺",url:"http://strange.straw-berry.net/"},
+				{name:"上海",url:"http://qwerty.on.arena.ne.jp/cgi-bin/bbs.cgi"},
+				{name:"ﾒｲｿ" ,url:"http://meiso.s147.xrea.com/bbs.cgi"},
+				{name:"ｸﾘ島",url:"http://www.strangeworld.ne.jp/cgi-bin/bbs/bbs.cgi"},
+				{name:"夕暮",url:"http://www.chararin.com/board4/cgi/main.cgi"},
+				{name:"初め",url:"http://strange.kurumi.ne.jp/bbs2.cgi"},
+				{name:"ﾘﾐｸｽ",url:"http://www.strangeworld.ne.jp/cgi-bin/remix/bbs.cgi"}
+			]
+	}
 
 console.log("[Start]" + bbs.title);
 console.log("[Start]" + bbs.server);
+
 
 // Configuration
 
@@ -312,6 +324,7 @@ function render_index(res,post_id,formval,page,parmament) {
 	,connect_user: connect_user
   	,counter_data: counter_data
 	,parmament:parmament
+  	,links: bbs.link
   });
   });
 };

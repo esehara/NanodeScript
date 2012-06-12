@@ -1,4 +1,9 @@
-h2= title
+if parmament.linkis
+  h2
+   a(href="/")= title
+else
+  h2= title
+
 if parmament.linkis
   #post_parmament
     h4 下の投稿を参照しています
@@ -51,9 +56,13 @@ if parmament.linkis
       input(id="url",name="url",size="70")
     p(class="user")
       接続累計(サーバー起動時から):<span id="connect_counter">!{counter_data.connection}</span>　現在の参加者:<span id="user_counter">!{connect_user}</span>人
-hr
-p <b><a href="information.html">広報室</a> | <a href="/log/">過去ログ</a></b>
-pre
+hr(class="whiteline",style="margin-bottom:0px;")
+p(class="link") 
+  <b><a href="information.html">広報室</a>｜<a href="/log/">過去ログ</a></b>
+  for link in links
+      ｜<a href="!{link.url}">!{link.name}</a> 
+hr(class="whiteline",style="margin-top:0px;")
+pre(id="explain")
   ■：投稿にレスをする　◆：スレッド表示　▼:投稿への個別リンク(Permanent Link)
   [数字]:発言のスコア(クリックするごとに上がります。笑ったときなどにどうぞ)
   !="\n\n"
@@ -66,7 +75,6 @@ pre
   a(href="/0/") 0件(Alt+0)
   ｜
   a(href="/page/" + (page + 1)) 次
-hr(class="whiteline")
 #body
   for post,index in posts
    .postitem
