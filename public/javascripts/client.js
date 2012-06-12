@@ -16,6 +16,11 @@ socket.on("connect",function(){
 				$("#connect_counter").text(data.connection);
 			});
 
+			socket.on("done_score",function(data){
+				wink_item(data.postid);
+				$("#score" + data.postid).text("[" + data.score + "]");
+			});
+
 			socket.on("newpost",function (data){
 			var quotetext_parser = function(text) {
   				text = text.split("\n");
@@ -43,7 +48,10 @@ socket.on("connect",function(){
 				$("title").text("(*" + new_post_counter + ")" + bbs_title);
 				$("#body").prepend(
 					"<div class='postitem new'>" +
-					"<p>" + "<a href='/post/" + data._id + "'>▼</a>　" + "<span class='title'>" + data.title + "</span>　" +
+					"<div id='post" + data._id + "'>" + 
+					"<p>" + "<a href='/post/" + data._id + "'>▼</a>" + 
+					" <a id='score" + data._id + "' onclick='do_score(\"" + data._id + "\")'>[" + data.score + "]</a>　" + 
+					"<span class='title'>" + data.title + "</span>　" +
 					"投稿者:　<span class='name' id='name"  + data._id + "'>" + data.name + "</span>" +
 					"　<span class='date'>投稿日:</span>" + "<span id='date" + data._id + "' class='date'>" + 
 					data.date.getFullYear() + "/" + (data.date.getMonth() + 1) + "/" + data.date.getDate() +
@@ -54,6 +62,7 @@ socket.on("connect",function(){
 					"</p>" +
 					"<pre id='" + data._id + "'>" + data.text + pre_url + "</pre>" + "<pre>" + pre_reference + "</pre>" + 
 					"<span id='parentid" + data._id + "' style='display:none'>" + data.parentid.replace("\"","") + "<span>" +   
+					"</div>" + 
 					"</div>"
 				);
 			});
@@ -98,6 +107,16 @@ var done_read = function(){
 	new_post_counter = 0;
 	$("title").text(bbs_title);
 	$(".new").removeClass("new");
+}
+
+var do_score = function(postid) {
+	socket.emit("do_score",postid);
+}
+
+var wink_item = function(postid) {
+	$("#post" + postid).css("opacity", "0.2");
+	$("#post" + postid).css("filter", "alpha(opacity=20)");
+	$("#post" + postid).fadeTo("slow", 1.0);
 }
 
 var set_post = function(postid) {

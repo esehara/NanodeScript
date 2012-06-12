@@ -8,6 +8,13 @@ hr(class="whiteline")
   for post,index in posts
    .postitem
       p
+        <a href="/post/!{post._id}">▼</a> 
+        [
+        if post.score
+            !=post.score
+        else
+            !=0
+        ]
         span.title !{post.title}　
         投稿者:　
         span.name(id="name" + post._id) !{post.name}

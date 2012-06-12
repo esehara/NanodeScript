@@ -28,6 +28,7 @@ var PostData = new Schema({
 	, postip:  {type:String,default: ""}
 	, reference : {type:String,default:""}
 	, reference_d : {type:String,default:""}
+	, score: {type:Number,default:0}
 });
 
 mongoose.model('post',PostData)
@@ -346,6 +347,26 @@ socketio.on('connection',function(socket){
 		console.log(data);
 	});
 
+	socket.on("do_score",function(data){
+		var return_score = {
+			postid: data
+		   ,score : 0
+		}
+		Post.findOne({_id:data},function(err,post){
+			
+			if (typeof post.score === "undefined") {
+				post.score = 1;
+			} else {
+				post.score ++;
+			}
+			return_score.score = post.score;
+			Post.update({_id:post._id},{$set:{score: post.score}},{upsert:true},function(err) {
+				socket.emit("done_score",return_score);
+				socket.broadcast.emit("done_score",return_score);
+			});
+		});
+	});
+
 	socket.on("do_post",function(data){
 		var broadcast_post = save_post({
 			 name:  data.name
@@ -357,6 +378,7 @@ socketio.on('connection',function(socket){
 			,postip:""
 			,reference:data.reference
 			,reference_d:data.reference_d
+			,score:0
 		});
 
 		if (broadcast_post !== false) {
@@ -448,6 +470,7 @@ app.post('/',function(req,res){
 			,postip:getClientIp(req)
 			,reference: req.body.reference
 			,reference_d: req.body.reference_d
+			,score:0
 		}
 	}
 	save_post(post_data);

@@ -4,6 +4,13 @@ if parmament.linkis
     h4 下の投稿を参照しています
     .postitem
       p
+        <a id="score!{parmament.post._id}" onClick="do_score('!{parmament.post._id}');">
+        [
+        if parmament.post.score
+            !=parmament.post.score
+        else
+            !=0
+        ]</a>
         span.title !{parmament.post.title}　
         投稿者:　
         span.name(id="name" + parmament.post._id) !{parmament.post.name}
@@ -48,6 +55,8 @@ hr
 p <b><a href="information.html">広報室</a> | <a href="/log/">過去ログ</a></b>
 pre
   ■：投稿にレスをする　◆：スレッド表示　▼:投稿への個別リンク(Parmanent Link)
+  [数字]:発言のスコア(クリックするごとに上がります。笑ったときなどにどうぞ)
+  !="\n\n"
   ※：新しい投稿は自動的に表示されます
 #nav
   a(onclick="done_read()") 既読(Alt+A)
@@ -61,8 +70,23 @@ hr(class="whiteline")
 #body
   for post,index in posts
    .postitem
+     div(id="post" + post._id)
       p
-        <a href="/post/!{post._id}">▼</a>　
+        <a href="/post/!{post._id}">▼</a> 
+        if page = 0
+           <a id="score!{post._id}" onClick="do_score('!{post._id}');">[
+           if post.score
+              !=post.score
+           else
+              !=0
+           ]</a>
+        else
+           [
+           if post.score
+              !=post.score
+           else
+              !=0
+           ]
         span.title !{post.title}　
         投稿者:　
         span.name(id="name" + post._id) !{post.name}
