@@ -73,7 +73,7 @@ hr(class="whiteline")
      div(id="post" + post._id)
       p
         <a href="/post/!{post._id}">▼</a> 
-        if page = 0
+        if page == 0
            <a id="score!{post._id}" onClick="do_score('!{post._id}');">[
            if post.score
               !=post.score
