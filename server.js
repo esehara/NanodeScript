@@ -36,8 +36,12 @@ var Post = mongoose.model("post")
 
 var app = module.exports = express.createServer();
 var bbs     = {
-    title:"やさしいわーるど＠なので"
+	 title:"やさしいわーるど＠なので"
+	,server: new Date()
 }
+
+console.log("[Start]" + bbs.title);
+console.log("[Start]" + bbs.server);
 
 // Configuration
 
@@ -335,6 +339,10 @@ socketio.on('connection',function(socket){
 
 	socket.emit("counter",counter_data);
 	socket.broadcast.emit("counter",counter_data);
+	
+	socket.emit("reload_check",bbs.server);
+
+
 
 	socket.on("disconnect",function(){
 		console.log("disonnected");
@@ -353,7 +361,6 @@ socketio.on('connection',function(socket){
 		   ,score : 0
 		}
 		Post.findOne({_id:data},function(err,post){
-			
 			if (typeof post.score === "undefined") {
 				post.score = 1;
 			} else {

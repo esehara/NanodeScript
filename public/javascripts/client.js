@@ -1,6 +1,7 @@
 var socket = io.connect();
 var new_post_counter = 0;
 var bbs_title = "やさしいわーるど＠なので";
+var client_start = undefined;
 
 socket.emit("debug","Connection Success!");
 
@@ -14,6 +15,16 @@ socket.on("connect",function(){
 			
 			socket.on("counter",function(data){
 				$("#connect_counter").text(data.connection);
+			});
+
+			socket.on("reload_check",function(date){
+				if(typeof client_start === "undefined") {
+					client_start = date;
+				} else {
+					if (client_start !== date) {
+						location.reload(true);
+					}
+				}
 			});
 
 			socket.on("done_score",function(data){
