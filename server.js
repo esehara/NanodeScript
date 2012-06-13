@@ -47,8 +47,11 @@ var bbs     = {
 				{name:"ｸﾘ島",url:"http://www.strangeworld.ne.jp/cgi-bin/bbs/bbs.cgi"},
 				{name:"夕暮",url:"http://www.chararin.com/board4/cgi/main.cgi"},
 				{name:"初め",url:"http://strange.kurumi.ne.jp/bbs2.cgi"},
-				{name:"ﾘﾐｸｽ",url:"http://www.strangeworld.ne.jp/cgi-bin/remix/bbs.cgi"}
-			]
+				{name:"ﾘﾐｸｽ",url:"http://www.strangeworld.ne.jp/cgi-bin/remix/bbs.cgi"},
+				{name:"他",url:"None"},
+				{name:"自ア+",url:"http://203.138.211.206/cgi-bin/vote+/list.cgi"},
+				{name:"波枯T",url:"http://netart.jp/namikare/nami.cgi"}
+	 		]
 	}
 
 console.log("[Start]" + bbs.title);
@@ -188,6 +191,7 @@ app.get('/0/',function(req,res){
   	,counter_data: counter_data
   	,parmament:{linkis: false}
 	,links:bbs.link
+	,render_youtube:render_youtube
 	});
 });
 
@@ -289,6 +293,11 @@ var quotetext_parser = function(text) {
 
   }
 
+function render_youtube(url) {
+	url_parse = url.match(/http(s)?:\/\/(www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_]+)/);
+	return "<iframe width='240' height='180' src='http://www.youtube.com/embed/" + url_parse[3] + "' frameborder='0' allowfullscreen></iframe>";
+}
+
 function render_thread(res,parent_id) {
 	Post.find({parentid: parent_id},[],{sort:{date:-1}},
 		function(err,posts){
@@ -298,6 +307,7 @@ function render_thread(res,parent_id) {
 				,quotetext_parser: quotetext_parser
 				,do_link_url: do_link_url
 				,render_date: render_date
+				,render_youtube: render_youtube
 			});
 		});
 }
@@ -326,6 +336,7 @@ function render_index(res,post_id,formval,page,parmament) {
   	,counter_data: counter_data
 	,parmament:parmament
   	,links: bbs.link
+  	,render_youtube:render_youtube
   });
   });
 };
