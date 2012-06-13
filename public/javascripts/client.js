@@ -43,7 +43,7 @@ socket.on("connect",function(){
 						"<div id='new_post_show'><a id='new_post_showlink' onclick='new_post_show()'></a></div>"
 					)
 				}
-				$("#new_post_showlink").text("新着発言が" + new_post_data.length + "件あるよ");
+				$("#new_post_showlink").text("新着発言が" + new_post_data.length + "件あるよ(Alt+S)");
 			});
 		}
 );
@@ -270,4 +270,8 @@ shortcut.add("Alt+1",function(){
 
 shortcut.add("Alt+0",function(){
 	location.href="/0/";
+});
+
+shortcut.add("Alt+S",function() {
+	new_post_show();
 });
