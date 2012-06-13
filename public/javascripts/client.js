@@ -47,7 +47,7 @@ socket.on("connect",function(){
 				console.log(data);
 				new_post_counter ++;
 				new_post_data[new_post_data.length] = data;
-				$("title").text("(*" + new_post_counter + ")" + bbs_title);
+				$("title").text("(" + new_post_data.length + ")" + bbs_title);
 				if($("#new_post_show").length === 0) {
 					$("#body").prepend(
 						"<div id='new_post_show'><a id='new_post_showlink' onclick='new_post_show()'></a></div>"
@@ -102,6 +102,7 @@ function new_post_show () {
 	}
 	$("#new_post_show").remove();
 	new_post_data = [];
+	$("title").text(bbs_title);
 }
 
 var quotetext_parser = function(text) {
