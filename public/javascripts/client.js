@@ -2,6 +2,7 @@ var socket = io.connect();
 var new_post_counter = 0;
 var bbs_title = "やさしいわーるど＠なので";
 var client_start = undefined;
+var new_post_data = [];
 
 socket.emit("debug","Connection Success!");
 
@@ -33,52 +34,20 @@ socket.on("connect",function(){
 			});
 
 			socket.on("newpost",function (data){
-			var quotetext_parser = function(text) {
-  				text = text.split("\n");
-  					for (var i = 0,len = text.length;i < len ; ++i ){
-  						if (text[i].match(/^&gt/) !== null) {
-  							text[i] = "<span class='quote'>" + text[i] + "</span>";
-  						}
-  					}
-  					return text.join("\n");
-  				}
 				console.log(data);
-				data.date = new Date(data.date);
-				data.text = do_link_url(quotetext_parser(data.text));
-				if (data.url === "") {
-					var pre_url = "";
-				} else {
-					var pre_url = "\n\n<a href='" + data.url +  "' id='url" + data._id + "' target='_blank'>" + data.url + "</a>";
-				}
-				if (data.reference == "") {
-					var pre_reference = "";
-				} else {
-					var pre_reference = "<a href='/post/" + data.reference + "'>参考:" + data.reference_d + "</a>";
-				}
 				new_post_counter ++;
+				new_post_data[new_post_data.length] = data;
 				$("title").text("(*" + new_post_counter + ")" + bbs_title);
-				$("#body").prepend(
-					"<div id='post" + data._id + "' class='postitem new'>" + 
-					"<p>" + "<a href='/post/" + data._id + "'>▼</a>" + 
-					" <a id='score" + data._id + "' onclick='do_score(\"" + data._id + "\")'>[" + data.score + "]</a>" + 
-					"<span class='title'>" + data.title + "</span>　" +
-					"投稿者:　<span class='name' id='name"  + data._id + "'>" + data.name + "</span>" +
-					"　<span class='date'>投稿日:</span>" + "<span id='date" + data._id + "' class='date'>" + 
-					data.date.getFullYear() + "/" + (data.date.getMonth() + 1) + "/" + data.date.getDate() +
-					"(" + ((["日","月","火","水","木","金","土"])[data.date.getDay()]) + ")" + data.date.getHours() + "時" +
-					data.date.getMinutes() + "分" + data.date.getSeconds() + "秒" +
-					"</span>　<a href='#' onClick='set_post(\"" + data._id + "\")'>■</a>" + 
-					"　<a href='/thread/" + data.parentid + "'>◆</a>" +
-					"　<a onClick='done_this_read(\"" + data._id + "\")' id='read" + data._id + "' class='read_link'>読</a>" +
-					"</p>" +
-					"<pre id='" + data._id + "'>" + data.text + pre_url + "</pre>" + "<pre>" + pre_reference + "</pre>" + 
-					"<span id='parentid" + data._id + "' style='display:none'>" + data.parentid.replace("\"","") + "<span>" +   
-					"</div>" + 
-					"</div>"
-				);
+				if($("#new_post_show").length === 0) {
+					$("#body").prepend(
+						"<div id='new_post_show'><a id='new_post_showlink' onclick='new_post_show()'></a></div>"
+					)
+				}
+				$("#new_post_showlink").text("新着発言が" + new_post_data.length + "件あるよ");
 			});
 		}
 );
+
 
 $('#newpost').live("reset",function(){
 	reset_postdata();
@@ -113,6 +82,61 @@ $('#newpost').live("submit",function(){
 	send_post();
 	return false;
 });
+
+function new_post_show () {
+	for (var i = 0,len = new_post_data.length;i < len;i ++) {
+		console.log("[Debug] Rneder Object");
+		console.log(new_post_data[i]);
+		new_post_render(new_post_data[i]);
+	}
+	$("#new_post_show").remove();
+	new_post_data = [];
+}
+
+var quotetext_parser = function(text) {
+				text = text.split("\n");
+					for (var i = 0,len = text.length;i < len ; ++i ){
+						if (text[i].match(/^&gt/) !== null) {
+							text[i] = "<span class='quote'>" + text[i] + "</span>";
+						}
+					}
+					return text.join("\n");
+	}
+
+function new_post_render (data) {
+	data.date = new Date(data.date);
+	data.text = do_link_url(quotetext_parser(data.text));
+		if (data.url === "") {
+			var pre_url = "";
+		} else {
+			var pre_url = "\n\n<a href='" + data.url +  "' id='url" + data._id + "' target='_blank'>" + data.url + "</a>";
+		}
+		
+		if (data.reference == "") {
+			var pre_reference = "";
+		} else {
+			var pre_reference = "<a href='/post/" + data.reference + "'>参考:" + data.reference_d + "</a>";
+		}
+	$("#body").prepend(
+					"<div id='post" + data._id + "' class='postitem new'>" + 
+					"<p>" + "<a href='/post/" + data._id + "'>▼</a>" + 
+					" <a id='score" + data._id + "' onclick='do_score(\"" + data._id + "\")'>[" + data.score + "]</a>" + 
+					"<span class='title'>" + data.title + "</span>　" +
+					"投稿者:　<span class='name' id='name"  + data._id + "'>" + data.name + "</span>" +
+					"　<span class='date'>投稿日:</span>" + "<span id='date" + data._id + "' class='date'>" + 
+					data.date.getFullYear() + "/" + (data.date.getMonth() + 1) + "/" + data.date.getDate() +
+					"(" + ((["日","月","火","水","木","金","土"])[data.date.getDay()]) + ")" + data.date.getHours() + "時" +
+					data.date.getMinutes() + "分" + data.date.getSeconds() + "秒" +
+					"</span>　<a href='#' onClick='set_post(\"" + data._id + "\")'>■</a>" + 
+					"　<a href='/thread/" + data.parentid + "'>◆</a>" +
+					"　<a onClick='done_this_read(\"" + data._id + "\")' id='read" + data._id + "' class='read_link'>読</a>" +
+					"</p>" +
+					"<pre id='" + data._id + "'>" + data.text + pre_url + "</pre>" + "<pre>" + pre_reference + "</pre>" + 
+					"<span id='parentid" + data._id + "' style='display:none'>" + data.parentid.replace("\"","") + "<span>" +   
+					"</div>" + 
+					"</div>"
+				);
+}
 
 var done_read = function(){
 	new_post_counter = 0;
