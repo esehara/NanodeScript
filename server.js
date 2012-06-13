@@ -175,7 +175,7 @@ app.get('/0/',function(req,res){
   	var counter_data = {
     	connection:connect_counter
   	}
-
+	
 	res.render('index', {
      title:  bbs.title
   	,posts:  []
@@ -187,6 +187,7 @@ app.get('/0/',function(req,res){
 	,connect_user: connect_user
   	,counter_data: counter_data
   	,parmament:{linkis: false}
+	,links:bbs.link
 	});
 });
 
