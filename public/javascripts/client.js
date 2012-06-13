@@ -3,9 +3,19 @@ var new_post_counter = 0;
 var bbs_title = "やさしいわーるど＠なので";
 var client_start = undefined;
 var new_post_data = [];
+var sound_on = false;
+
+setInterval(function(){
+	console.log("[Debug] SetInterval");
+	if(sound_on && $("#sound_on").is(":checked") ){
+		console.log("[Debug] Play new.wav");
+		$('embed').remove();
+		$('body').append('<embed src="/sound/new.wav" autostart="true" hidden="true" loop="false">');
+	}
+	sound_on = false;
+},6000);
 
 socket.emit("debug","Connection Success!");
-
 
 socket.on("connect",function(){
 			console.log("[Debug] Connecion Success!");
@@ -44,6 +54,7 @@ socket.on("connect",function(){
 					)
 				}
 				$("#new_post_showlink").text("新着発言が" + new_post_data.length + "件あるよ(Alt+S)");
+				sound_on = true;
 			});
 		}
 );
