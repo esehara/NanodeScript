@@ -6,9 +6,7 @@ var new_post_data = [];
 var sound_on = false;
 
 setInterval(function(){
-	console.log("[Debug] SetInterval");
 	if(sound_on && $("#sound_on").is(":checked") ){
-		console.log("[Debug] Play new.wav");
 		$('embed').remove();
 		$('body').append('<embed src="/sound/new.wav" autostart="true" hidden="true" loop="false">');
 	}
@@ -18,8 +16,6 @@ setInterval(function(){
 socket.emit("debug","Connection Success!");
 
 socket.on("connect",function(){
-			console.log("[Debug] Connecion Success!");
-
 			socket.on("user",function(data){
 				$("#user_counter").text(data);
 			});
@@ -44,7 +40,6 @@ socket.on("connect",function(){
 			});
 
 			socket.on("newpost",function (data){
-				console.log(data);
 				new_post_counter ++;
 				new_post_data[new_post_data.length] = data;
 				$("title").text("(" + new_post_data.length + ")" + bbs_title);
@@ -86,7 +81,6 @@ $('#newpost').live("submit",function(){
 					,reference_d:$("#reference_d").val()
 				}
 				reset_postdata();
-				console.log(postmessage);
 				socket.emit('do_post',postmessage);
 			};
 
@@ -96,8 +90,6 @@ $('#newpost').live("submit",function(){
 
 function new_post_show () {
 	for (var i = 0,len = new_post_data.length;i < len;i ++) {
-		console.log("[Debug] Rneder Object");
-		console.log(new_post_data[i]);
 		new_post_render(new_post_data[i]);
 	}
 	$("#new_post_show").remove();
@@ -190,18 +182,14 @@ var wink_item = function(postid) {
 var set_post = function(postid) {
 	var pretext = $("#" + postid).text().split("\n");
 	var parsetext = [];
-	console.log("[Debug] Text Array is:");
-	console.log(pretext);
 	for (var i = 0,len = pretext.length; i < len; ++i){
 		if (pretext[i] !== "" && pretext[i].match(/^(> > > )/) === null){
 			parsetext[parsetext.length] = "> " + pretext[i];
 		}
 	}
 	if ($("#parentid" + postid).text() == "") {
-		console.log("[Debug] Parentid is none.");
 		$("#parentid").val(postid);
 	} else {
-		console.log("[Debug] Parentid is find.");
 		$("#parentid").val($("#parentid" + postid).text());
 	}
 	
@@ -231,7 +219,6 @@ function do_link_url(str) {
 		var pre_replace = [];
 		for (var i = 0,len = url.length;i < len; ++i) {
 			if (str.match(url[i])) {
-				console.log("[Debug] Replace Url");
 				str = str.replace(url[i], "<" + pre_replace.length + ">");
 				pre_replace[pre_replace.length] = url[i];
 			}
@@ -265,7 +252,6 @@ shortcut.add("Alt+Enter",function(){
 				}
 
 				reset_postdata();
-				console.log(postmessage);
 				socket.emit('do_post',postmessage);
 			}
 
