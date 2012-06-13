@@ -499,7 +499,7 @@ app.post('/',function(req,res){
 			,text  : req.body.content
 			,url   : req.body.url
 			,parentid : req.body.parentid
-			,postip:getClientIp(req)
+			,postip: ""
 			,reference: req.body.reference
 			,reference_d: req.body.reference_d
 			,score:0
