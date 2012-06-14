@@ -27,3 +27,11 @@ function apply_css_custom() {
 	$("#custom").text($("#css_custom_data").val());
 	$("#css_custom").fadeOut();
 }
+
+function return_css_custom() {
+	$("#css_custom_data").val(store.get('custom_css'));
+}
+
+function not_apply_css_custom() {
+	$("#css_custom").fadeOut();
+}
