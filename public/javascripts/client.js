@@ -120,7 +120,7 @@ function new_post_render (data) {
 			var pre_url = "";
 		} else {
 			function render_youtube(url) {
-				url_parse = url.match(/http(s)?:\/\/(www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_]+)/);
+				url_parse = url.match(/http(s)?:\/\/(www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/);
 				return "\n\n<iframe width='240' height='180' src='http://www.youtube.com/embed/" + url_parse[3] + "' frameborder='0' allowfullscreen></iframe>";
 			}
 			var pre_url = "";
