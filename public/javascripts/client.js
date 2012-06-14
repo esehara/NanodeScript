@@ -232,8 +232,32 @@ function do_link_url(str) {
 }
 //KeyBind
 
-shortcut.add("Alt+Enter",function(){
+shortcut.add("Alt+X",function(){
+		var send_post = function(){
+					if ($("#content").val() == "") {
+						return false;
+					}
 
+				var postmessage = {
+					name: $('#showname').val()
+					,email: $('#email').val()
+					,topic: $('#topic').val()
+					,content: $('#content').val()
+					,url:$('#url').val()
+					,parentid:$('#parentid').val()
+					,postip:""
+					,reference:$('#reference').val()
+					,reference_d:$('#reference_d').val()
+				}
+
+				reset_postdata();
+				socket.emit('do_post',postmessage);
+			}
+
+	send_post();
+});
+
+shortcut.add("Alt+Enter",function(){
 	var send_post = function(){
 					if ($("#content").val() == "") {
 						return false;
@@ -267,6 +291,10 @@ shortcut.add("Alt+P",function(){
 });
 
 shortcut.add("Alt+A",function(){
+	done_read();
+});
+
+shortcut.add("Alt+O",function(){
 	done_read();
 });
 

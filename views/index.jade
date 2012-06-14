@@ -43,7 +43,7 @@ if parmament.linkis
       input(id="email",name="email",size="30",value="")
     p 題名　　
       input(id="topic",name="topic",size="30",value=formval.topic)
-      input(type="submit",value="投稿(Alt + Enter)")
+      input(type="submit",value="投稿(Alt + (Enter or X))")
       input(type="reset",value="消す(Alt + R)")
       input(type="hidden",value="",id="parentid",name="parentid",value=formval.parentid)
       input(type="hidden",value="",id="reference",name="reference",value=formval.reference)
@@ -75,7 +75,7 @@ pre(id="explain")
   !="\n\n"
   ※：新しい投稿は自動的に表示されます
 #nav
-  a(onclick="done_read()") 既読(Alt+A)
+  a(onclick="done_read()") 既読(Alt+(A or O))
   ｜
   a(href="/") 更新(Alt+1)
   ｜

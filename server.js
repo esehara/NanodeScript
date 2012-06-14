@@ -48,9 +48,9 @@ var bbs     = {
 				{name:"夕暮",url:"http://www.chararin.com/board4/cgi/main.cgi"},
 				{name:"初め",url:"http://strange.kurumi.ne.jp/bbs2.cgi"},
 				{name:"ﾘﾐｸｽ",url:"http://www.strangeworld.ne.jp/cgi-bin/remix/bbs.cgi"},
-				{name:"他",url:"None"},
-				{name:"自ア+",url:"http://203.138.211.206/cgi-bin/vote+/list.cgi"},
-				{name:"波枯T",url:"http://netart.jp/namikare/nami.cgi"}
+				{name:"派生",url:"None"},
+				{name:"料理",url:"http://strange-recipe.org/bbs.cgi"},
+				{name:"ﾐｼﾞｮﾃ",url:"http://kontoukou.atwebpages.com/bbs.cgi"},
 	 		]
 	}
 
