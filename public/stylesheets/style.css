@@ -122,3 +122,19 @@ h2 {
 	border-bottom: 2px solid #006060;
 	border-left: 10px solid #006060;
 }
+
+#css_custom {
+	display:none;
+	border:2px solid #002020;	
+	margin:24px;
+}
+
+#css_custom h4 {
+	background-color: #006060;
+	margin:0px;
+	padding:6px;
+}
+
+#css_custom_data {
+	width:100%;
+}

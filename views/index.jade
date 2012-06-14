@@ -58,8 +58,15 @@ if parmament.linkis
       input(id="url",name="url",size="70")
     p(class="user")
       接続累計(サーバー起動時から):<span id="connect_counter">!{counter_data.connection}</span>　現在の参加者:<span id="user_counter">!{connect_user}</span>人
-    input(type="checkbox",id="sound_on")
-    新着時には音を鳴らす
+    pre
+      input(type="checkbox",id="sound_on",onClick="soundon_save();")
+      新着時には音を鳴らす ｜ 
+      a(onclick="show_css_custom();") CSSをカスタマイズする
+      #css_custom
+         h4 CSSをカスタマイズする
+         textarea(id="css_custom_data",rows="5",cols="70")
+         p
+           a(onclick="apply_css_custom();") CSSを保存して反映する
 hr(class="whiteline",style="margin-bottom:0px;")
 p(class="link") 
   <b><a href="/information.html">広報室</a>｜<a href="/log/">過去ログ</a></b>
@@ -133,5 +140,4 @@ pre(id="explain")
   if page === 0
     script(type="text/javascript",src="/socket.io/socket.io.js")
     script(type="text/javascript",src="/javascripts/shortcut.js")
-    script(type="text/javascript",src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js")
     script(type="text/javascript",src="/javascripts/client.js")
