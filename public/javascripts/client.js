@@ -4,6 +4,7 @@ var bbs_title = "やさしいわーるど＠なので";
 var client_start = undefined;
 var new_post_data = [];
 var sound_on = false;
+var new_post_flag = false;
 
 setInterval(function(){
 	if(sound_on && $("#sound_on").is(":checked") ){
@@ -50,6 +51,10 @@ socket.on("connect",function(){
 				}
 				$("#new_post_showlink").text("新着発言が" + new_post_data.length + "件あるよ(Alt+S)");
 				sound_on = true;
+				if(new_post_flag) {
+					new_post_show();
+					new_post_flag = false;
+				}
 			});
 		}
 );
@@ -82,6 +87,7 @@ $('#newpost').live("submit",function(){
 				}
 				reset_postdata();
 				socket.emit('do_post',postmessage);
+				new_post_flag = true;
 			};
 
 	send_post();
@@ -252,8 +258,8 @@ shortcut.add("Alt+X",function(){
 
 				reset_postdata();
 				socket.emit('do_post',postmessage);
+				new_post_flag = true;
 			}
-
 	send_post();
 });
 
@@ -277,8 +283,8 @@ shortcut.add("Alt+Enter",function(){
 
 				reset_postdata();
 				socket.emit('do_post',postmessage);
-			}
-
+				new_post_flag = true;
+		}
 	send_post();
 });
 
