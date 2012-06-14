@@ -120,11 +120,11 @@ function new_post_render (data) {
 			var pre_url = "";
 		} else {
 			function render_youtube(url) {
-				url_parse = url.match(/http(s)?:\/\/(www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/);
-				return "\n\n<iframe width='240' height='180' src='http://www.youtube.com/embed/" + url_parse[3] + "' frameborder='0' allowfullscreen></iframe>";
+				url_parse = url.match(/http(s)?:\/\/(www\.)?youtube\.com\/watch\?(.*)?=([a-zA-Z0-9_-]+)/);
+				return "\n\n<iframe width='240' height='180' src='http://www.youtube.com/embed/" + url_parse[4] + "' frameborder='0' allowfullscreen></iframe>";
 			}
 			var pre_url = "";
-			if(data.url.match(/http(s)?:\/\/(www\.)?youtube\.com\/watch\?v=/)) {
+			if(data.url.match(/http(s)?:\/\/(www\.)?youtube\.com\/watch\?(.*)?v=/)) {
 				var pre_url = render_youtube(data.url);
 			}
 				pre_url = pre_url + "\n\n<a href='" + data.url +  "' id='url" + data._id + "' target='_blank'>" + data.url + "</a>";

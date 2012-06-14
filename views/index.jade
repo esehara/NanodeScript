@@ -127,7 +127,7 @@ pre(id="explain")
       pre(id=post._id)
         span.text !{do_link_url(quotetext_parser(post.text))}
         if post.url !== ""
-          if post.url.match(/http(s)?:\/\/(www\.)?youtube\.com\/watch\?v=/)
+          if post.url.match(/http(s)?:\/\/(www\.)?youtube\.com\/watch\?(.*)?v=/)
             !="\n\n"
             !=render_youtube(post.url)
           !="\n\n"
