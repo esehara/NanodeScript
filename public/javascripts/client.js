@@ -54,6 +54,7 @@ socket.on("connect",function(){
 				if(new_post_flag) {
 					new_post_show();
 					new_post_flag = false;
+					sound_on = false;
 				}
 			});
 		}
