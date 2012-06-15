@@ -118,7 +118,7 @@ pre(id="explain")
         if page === 0
             　<a href="#" onClick="set_post('!{post._id}');">■</a>　<a href="/thread/!{post.parentid}">◆</a>
         if page === 1
-            　<a href="/post/!{post._id}">■</a>　<a href="/thread/!{post.parentid}">◆</a>　<a href="/post/!{post._id}">●</a>
+            　<a href="/post/!{post._id}">■</a>　<a href="/thread/!{post.parentid}">◆</a>
       pre(id=post._id)
         span.text !{do_link_url(quotetext_parser(post.text))}
         if post.url !== ""
