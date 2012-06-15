@@ -66,10 +66,12 @@ socket.on("connect",function(){
 					new_post_flag = false;
 					sound_on = false;
 				}
+			
 			});
 		}
 );
 
+socket.emit("get_log_user");
 
 $('#newpost').live("reset",function(){
 	reset_postdata();
