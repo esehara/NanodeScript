@@ -78,9 +78,6 @@ app.configure('production', function(){
 });
 
 // Routes
-app.get('/sp/',function(req,res){
-	pre_render_index(res,undefined,"0",'index_smartphone',10,"style_mobile.css");
-});
 
 app.get('/', function(req, res){
 	pre_render_index(res,undefined,"0");
@@ -89,6 +86,10 @@ app.get('/', function(req, res){
 app.get('/post/:id',function(req,res){
 	var post_id = req.params.id;
 	pre_render_index(res,post_id,"0");
+});
+
+app.get('/sp/',function(req,res){
+	pre_render_index(res,undefined,"0",'index_smartphone',10,"style_mobile.css");
 });
 
 app.get('/sp/post/:id',function(req,res) {
@@ -170,7 +171,7 @@ app.get('/page/:page',function(req,res){
 	pre_render_index(res,undefined,page);
 });
 
-app.get('/page/:page',function(req,res){
+app.get('/sp/page/:page',function(req,res){
 	var page = req.params.page;
 	pre_render_index(res,undefined,page,'index_smartphone',10,"style_mobile.css");
 });
