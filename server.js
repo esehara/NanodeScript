@@ -78,6 +78,9 @@ app.configure('production', function(){
 });
 
 // Routes
+app.get('/sp/',function(req,res){
+	pre_render_index(res,undefined,"0",'index_smartphone',10,"style_mobile.css");
+});
 
 app.get('/', function(req, res){
 	pre_render_index(res,undefined,"0");
@@ -86,6 +89,11 @@ app.get('/', function(req, res){
 app.get('/post/:id',function(req,res){
 	var post_id = req.params.id;
 	pre_render_index(res,post_id,"0");
+});
+
+app.get('/sp/post/:id',function(req,res) {
+	var post_id = req.params.id;
+	pre_render_index(res,post_id,"0",'index_smartphone',10,"style_mobile.css");
 });
 
 app.get('/thread/:id',function(req,res){
@@ -159,8 +167,12 @@ function log_dates(startdate) {
 
 app.get('/page/:page',function(req,res){
 	var page = req.params.page;
-	console.log("[Debug] Page is Get " + page);
 	pre_render_index(res,undefined,page);
+});
+
+app.get('/page/:page',function(req,res){
+	var page = req.params.page;
+	pre_render_index(res,undefined,page,'index_smartphone',10,"style_mobile.css");
 });
 
 app.get('/0/',function(req,res){
@@ -192,6 +204,40 @@ app.get('/0/',function(req,res){
   	,parmament:{linkis: false}
 	,links:bbs.link
 	,render_youtube:render_youtube
+	,css_template:'style.css'
+	});
+});
+
+app.get('/sp/0/',function(req,res){
+	var null_formval = {
+		 name: ""
+		,email: ""
+		,topic: ""
+		,parentid:""
+		,content:""
+		,url:""
+		,reference:""
+		,reference_d:""
+	}
+
+  	var counter_data = {
+    	connection:connect_counter
+  	}
+	
+	res.render('index_smartphone', {
+     title:  bbs.title
+  	,posts:  []
+	,do_link_url: do_link_url
+  	,quotetext_parser:  quotetext_parser
+  	,render_date: render_date
+	,formval: null_formval
+	,page : 0
+	,connect_user: connect_user
+  	,counter_data: counter_data
+  	,parmament:{linkis: false}
+	,links:bbs.link
+	,render_youtube:render_youtube
+	,css_template:'style_mobile.css'
 	});
 });
 
@@ -214,8 +260,16 @@ function getClientIp(req) {
   return ipAddress;
 };
 
-function pre_render_index(res,post_id,page) {
+function pre_render_index(res,post_id,page,template,postnumber,css_template) {
 	console.log("[Debug] Pre Render Index is " + page);
+	if (typeof template === "undefined") {
+		template = "index";
+	}
+
+	if (typeof postnumber === "undefined") {
+		postnumber = 30;
+	}
+
 	var null_formval = {
 		 name: ""
 		,email: ""
@@ -231,11 +285,11 @@ function pre_render_index(res,post_id,page) {
 		,post:undefined
 	}
 	if (typeof post_id === "undefined") {
-		render_index(res,post_id,null_formval,page,parmament);
+		render_index(res,post_id,null_formval,page,parmament,template,postnumber,css_template);
 	} else {
 		Post.findOne({_id:post_id},function(err,post){
 			if (post === null) {
-				render_index(res,post_id,null_formval,page,parmament);
+				render_index(res,post_id,null_formval,page,parmament,postnumber,css_template);
 			} else {
 				console.log(post);
 				if (post.parentid !== "") {
@@ -259,7 +313,7 @@ function pre_render_index(res,post_id,page) {
 				,reference: post._id
 				,reference_d: string_date(render_date(post.date))
 				};
-				render_index(res,post_id,formval,page,parmament);
+				render_index(res,post_id,formval,page,parmament,template,postnumber,css_template);
 		}});
 	}
 }
@@ -312,7 +366,7 @@ function render_thread(res,parent_id) {
 		});
 }
 
-function render_index(res,post_id,formval,page,parmament) {
+function render_index(res,post_id,formval,page,parmament,template,postnumber,css_template) {
   console.log(page);
   page = parseInt(page);
   console.log("[Debug] Page is " + page);
@@ -320,11 +374,15 @@ function render_index(res,post_id,formval,page,parmament) {
     connection:connect_counter
   }
   
+  if(typeof css_template === "undefined") {
+  	css_template = "style.css";
+  }
+
   Post.find({},[],{
-  skip:(30 * page),limit: 30 * (page + 1),sort:{date:-1}
+  skip:(postnumber * page),limit: postnumber * (page + 1),sort:{date:-1}
   },function(err,posts){
   console.log(formval)
-  res.render('index', {
+  res.render(template, {
      title:  bbs.title
   	,posts:  posts
 	,do_link_url: do_link_url
@@ -337,6 +395,7 @@ function render_index(res,post_id,formval,page,parmament) {
 	,parmament:parmament
   	,links: bbs.link
   	,render_youtube:render_youtube
+  	,css_template:css_template
   });
   });
 };

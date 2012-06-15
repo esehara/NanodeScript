@@ -4,8 +4,6 @@ if parmament.linkis
 else
   h2= title
 
-p(style="margin:0px;padding:0px;font-size:12px;background-color:#000000;color:#00FF00;") Internet Explorerでは動かない可能性があります。ChromeかFirefoxを使いましょう。
-
 if parmament.linkis
   #post_parmament
     h4 下の投稿を参照しています
@@ -40,31 +38,32 @@ if parmament.linkis
     p 投稿者　
       input(id="showname",name="showname",value=formval.name)
     p メール　
-      input(id="email",name="email",size="30",value="")
+      input(id="email",name="email",value="")
     p 題名　　
-      input(id="topic",name="topic",size="30",value=formval.topic)
-      input(type="submit",value="投稿(Alt + (Enter or X))")
-      input(type="reset",value="消す(Alt + R)")
+      input(id="topic",name="topic",value=formval.topic)
+    p
+      input(type="submit",value="投稿")
+      input(type="reset",value="消す")
       input(type="hidden",value="",id="parentid",name="parentid",value=formval.parentid)
       input(type="hidden",value="",id="reference",name="reference",value=formval.reference)
       input(type="hidden",value="",id="reference_d",name="reference_d",value=formval.reference_d)
     br
-    p 内容(Alt+P)
+    p 内容
     p
-      textarea(id="content",name="content",rows="5",cols="70") !{formval.content}
+      textarea(id="content",name="content",rows="5",style="width:300px;") !{formval.content}
     br
-    p URL(Youtubeへのリンクを貼ると動画を埋め込みます)
+    p URL
     p
-      input(id="url",name="url",size="70")
-    p(class="user")
-      接続累計(サーバー起動時から):<span id="connect_counter">!{counter_data.connection}</span>　現在の参加者:<span id="user_counter">!{connect_user}</span>人
+      input(id="url",name="url")
+    p(class="user") 接続累計(サーバー起動時から):<span id="connect_counter">!{counter_data.connection}</span>
+    p(class="user") 現在の参加者:<span id="user_counter">!{connect_user}</span>人
     pre
       input(type="checkbox",id="sound_on",onClick="soundon_save();")
       新着時には音を鳴らす ｜ 
       a(onclick="show_css_custom();") CSSをカスタマイズする
       #css_custom
          h4 CSSをカスタマイズする
-         textarea(id="css_custom_data",rows="5",cols="70")
+         textarea(id="css_custom_data")
          p
            a(onclick="apply_css_custom();") CSSを保存して反映する
            ｜
@@ -73,32 +72,28 @@ if parmament.linkis
            a(onclick="not_apply_css_custom();") この窓を閉じる
 hr(class="whiteline",style="margin-bottom:0px;")
 p(class="link") 
-  <b><a href="/information.html">広報室</a>｜<a href="/log/">過去ログ</a>｜<a href="/sp/">Smartphone</a></b>
-  for link in links
-      if link.url == "None"
-        ｜<b>!{link.name}</b>
-      else
-        ｜<a href="!{link.url}" target="_blank">!{link.name}</a> 
+  <b><a href="/information.html">広報室</a>｜<a href="/log/">過去ログ</a></b>
 hr(class="whiteline",style="margin-top:0px;")
 pre(id="explain")
-  ■：投稿にレスをする　◆：スレッド表示　▼:投稿への個別リンク(Permanent Link)
+  ■：投稿にレスをする
+  ◆：スレッド表示
+  ▼:投稿への個別リンク(Permanent Link)
   [数字]:発言のスコア(クリックするごとに上がります。笑ったときなどにどうぞ)
-  !="\n\n"
   ※：新しい投稿は自動的に表示されます
 #nav
-  a(onclick="done_read()") 既読(Alt+(A or O))
+  a(onclick="done_read()") 既読
   ｜
-  a(href="/") 更新(Alt+1)
+  a(href="/sp/") 更新
   ｜
-  a(href="/0/") 0件(Alt+0)
+  a(href="/sp/0/") 0件
   ｜
-  a(href="/page/" + (page + 1)) 次
+  a(href="/sp/page/" + (page + 1)) 次
 #body
   for post,index in posts
    .postitem
      div(id="post" + post._id)
       p
-        <a href="/post/!{post._id}">▼</a> 
+        <a href="/sp/post/!{post._id}">▼</a> 
         if page == 0
            <a id="score!{post._id}" onClick="do_score('!{post._id}');">[
            if post.score
@@ -127,14 +122,11 @@ pre(id="explain")
       pre(id=post._id)
         span.text !{do_link_url(quotetext_parser(post.text))}
         if post.url !== ""
-          if post.url.match(/http(s)?:\/\/(www\.)?youtube\.com\/watch\?(.*)?v=/)
-            !="\n\n"
-            !=render_youtube(post.url)
           !="\n\n"
           a(href=post.url,id="url" + post._id,target="_blank") !{post.url}
       pre
         if (post.reference !== "" && post.reference !== undefined)
-            a(href="/post/" + post.reference)参考:!{post.reference_d}
+            a(href="/sp/post/" + post.reference)参考:!{post.reference_d}
       span(id="parentid" + post._id,style="display:none;") !{post.parentid}
 #nav
   a(href="/") 更新
@@ -144,8 +136,6 @@ pre(id="explain")
   script(type="text/javascript",src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js")
   script(type="text/javascript",src="/javascripts/persist-min.js")
   script(type="text/javascript",src="/javascripts/persist-client.js")
-  script(type="text/javascript",src="/javascripts/shortcut.js")
-  script(type="text/javascript",src="/javascripts/shortcut-client.js")
   if page === 0
     script(type="text/javascript",src="/socket.io/socket.io.js")
     script(type="text/javascript",src="/javascripts/client.js")
