@@ -292,24 +292,12 @@ shortcut.add("Alt+R",function(){
 	reset_postdata();
 });
 
-shortcut.add("Alt+P",function(){
-	document.postfrom.content.focus();
-});
-
 shortcut.add("Alt+A",function(){
 	done_read();
 });
 
 shortcut.add("Alt+O",function(){
 	done_read();
-});
-
-shortcut.add("Alt+1",function(){
-	location.href="/";
-});
-
-shortcut.add("Alt+0",function(){
-	location.href="/0/";
 });
 
 shortcut.add("Alt+S",function() {
