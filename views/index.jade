@@ -57,7 +57,7 @@ if parmament.linkis
     p
       input(id="url",name="url",size="70")
     p(class="user")
-      接続累計(サーバー起動時から):<span id="connect_counter">!{counter_data.connection}</span>　現在の参加者:<span id="user_counter">!{connect_user}</span>人
+      接続累計(サーバー起動時から):<span id="connect_counter">!{counter_data.connection}</span>　現在の参加者:<span id="user_counter">!{connect_user}</span>人 <span id="user_g"></span>
     pre
       input(type="checkbox",id="sound_on",onClick="soundon_save();")
       新着時には音を鳴らす ｜ 
@@ -142,6 +142,7 @@ pre(id="explain")
   a(href="/page/" + ((page + 1).toString())) 次
 #header
   script(type="text/javascript",src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js")
+  script(type="text/javascript",src="/javascripts/jquery.sparkline.min.js")
   script(type="text/javascript",src="/javascripts/persist-min.js")
   script(type="text/javascript",src="/javascripts/persist-client.js")
   script(type="text/javascript",src="/javascripts/shortcut.js")

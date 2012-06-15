@@ -404,6 +404,25 @@ function render_index(res,post_id,formval,page,parmament,template,postnumber,css
 app.listen(process.env.PORT || 3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
+//SetInterval
+var on_server = 60 * 10;
+function logarray_init(inte) {
+	var return_array = new Array(inte);
+	for(var i = 0,len = return_array.length;i < 20;i ++) {
+		return_array[i] = 1;
+	}
+	return return_array;
+}
+
+var participater = logarray_init(18);
+
+setInterval(function(){
+	//Logger
+	console.log("[Debug] Interval test :: 10 Second");
+	participater.shift();
+	participater.push(connect_user);
+}, on_server * 1000);
+
 //Socket.io
 
 var connect_user = 0;
@@ -427,7 +446,9 @@ socketio.on('connection',function(socket){
 	
 	socket.emit("reload_check",bbs.server);
 
-
+	socket.on("get_log_user",function() {
+		socket.emit("get_log_user",participater);
+	});
 
 	socket.on("disconnect",function(){
 		console.log("disonnected");
@@ -480,7 +501,7 @@ socketio.on('connection',function(socket){
 	})
 
 });
-
+	
 function render_date(target_date) {
 	return new Date(("" + target_date).replace("GMT+0000","GMT-0900"));
 }
@@ -574,3 +595,4 @@ app.post('/',function(req,res){
 function escapeHTML(str) {
 	return str.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
+

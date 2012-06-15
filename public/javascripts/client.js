@@ -14,6 +14,11 @@ setInterval(function(){
 	sound_on = false;
 },6000);
 
+setInterval(function() {
+	socket.emit("get_log_user");
+},60 * 1000);
+
+
 socket.emit("debug","Connection Success!");
 
 socket.on("connect",function(){
@@ -23,6 +28,11 @@ socket.on("connect",function(){
 			
 			socket.on("counter",function(data){
 				$("#connect_counter").text(data.connection);
+			});
+
+			socket.on("get_log_user",function(data) {
+				$("#user_g").sparkline(data,{chartRengeMin:1});
+				console.log("GET!!");
 			});
 
 			socket.on("reload_check",function(date){
