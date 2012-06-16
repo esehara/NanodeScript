@@ -119,6 +119,7 @@ function render_log_index(res) {
 	Post.findOne({},function(err,post) {
 		res.render('log_index',{
 			title:bbs.title
+			,css_template:"style.css"
 			,logs_date: log_dates(post.date)
 			,render_date: render_date
 			,plus_zero: function(inte) {
@@ -150,6 +151,7 @@ function render_log_show(res,show_date) {
 				,quotetext_parser: quotetext_parser
 				,do_link_url: do_link_url
 				,render_date: render_date
+				,css_template: "style.css"
 			});
 		});
 }
@@ -363,6 +365,7 @@ function render_thread(res,parent_id) {
 				,do_link_url: do_link_url
 				,render_date: render_date
 				,render_youtube: render_youtube
+				,css_template:"style.css"
 			});
 		});
 }
