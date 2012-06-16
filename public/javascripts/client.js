@@ -1,27 +1,29 @@
-var socket = io.connect();
+var _socket = io.connect();
+
+(function(exterior) {
 var new_post_counter = 0;
 var bbs_title = "やさしいわーるど＠なので";
 var client_start = undefined;
 var new_post_data = [];
 var sound_on = false;
 var new_post_flag = false;
+var socket = _socket;
+	setInterval(function(){
+		if(sound_on && $("#sound_on").is(":checked") ){
+			$('embed').remove();
+			$('body').append('<embed src="/sound/new.wav" autostart="true" hidden="true" loop="false">');
+		}
+		sound_on = false;
+	},6000);
 
-setInterval(function(){
-	if(sound_on && $("#sound_on").is(":checked") ){
-		$('embed').remove();
-		$('body').append('<embed src="/sound/new.wav" autostart="true" hidden="true" loop="false">');
-	}
-	sound_on = false;
-},6000);
-
-setInterval(function() {
-	socket.emit("get_log_user");
-},60 * 1000);
+	setInterval(function() {
+		socket.emit("get_log_user");
+	},60 * 1000);
 
 
-socket.emit("debug","Connection Success!");
+ socket.emit("debug","Connection Success!");
 
-socket.on("connect",function(){
+ socket.on("connect",function(){
 			socket.on("user",function(data){
 				$("#user_counter").text(data);
 			});
@@ -59,7 +61,7 @@ socket.on("connect",function(){
 						"<div id='new_post_show'><a id='new_post_showlink' onclick='new_post_show()'></a></div>"
 					)
 				}
-				$("#new_post_showlink").text("新着発言が" + new_post_data.length + "件あるよ(Alt+S)");
+				$("#new_post_showlink").text("新着発言が" + new_post_data.length + "件あるよ(" + $("#shortcut_show_post").val() + ")");
 				sound_on = true;
 				if(new_post_flag) {
 					new_post_show();
@@ -76,12 +78,6 @@ socket.emit("get_log_user");
 $('#newpost').live("reset",function(){
 	reset_postdata();
 })
-
-$('#newpost').live("submit",function(){
-	if ($("#content").val() == "") {
-		return false;
-	}
-
 			var send_post = function(){
 					if ($("#content").val() == "") {
 						return false;
@@ -103,11 +99,16 @@ $('#newpost').live("submit",function(){
 				new_post_flag = true;
 			};
 
+
+$('#newpost').live("submit",function(){
+	if ($("#content").val() == "") {
+		return false;
+	}
 	send_post();
 	return false;
 });
 
-function new_post_show () {
+exterior.new_post_show = function() {
 	for (var i = 0,len = new_post_data.length;i < len;i ++) {
 		new_post_render(new_post_data[i]);
 	}
@@ -169,14 +170,14 @@ function new_post_render (data) {
 				);
 }
 
-var done_read = function(){
+exterior.done_read = function(){
 	new_post_counter = 0;
 	$("title").text(bbs_title);
 	$(".new").removeClass("new");
 	$(".read_link").remove();
 }
 
-var done_this_read = function(postid) {
+exterior.done_this_read = function(postid) {
 	new_post_counter --;
 	$("#post" + postid).removeClass("new");
 	$("#read" + postid).remove();
@@ -188,7 +189,7 @@ var done_this_read = function(postid) {
 }
 
 
-var do_score = function(postid) {
+exterior.do_score = function(postid) {
 	socket.emit("do_score",postid);
 }
 
@@ -198,7 +199,7 @@ var wink_item = function(postid) {
 	$("#post" + postid).fadeTo("slow", 1.0);
 }
 
-var set_post = function(postid) {
+exterior.set_post = function(postid) {
 	var pretext = $("#" + postid).text().split("\n");
 	var parsetext = [];
 	for (var i = 0,len = pretext.length; i < len; ++i){
@@ -220,7 +221,7 @@ var set_post = function(postid) {
 	$("#topic").val("＞" + $("#name" + postid).text());
 }
 
-function reset_postdata() {
+exterior.reset_postdata= function(){
 	$('#showname').val("");
 	$('#email').val("");
 	$('#topic').val("");
@@ -249,70 +250,58 @@ function do_link_url(str) {
 	}
 	return str;
 }
+
 //KeyBind
+var shortcut = exterior.shortcut;
+var store = new Persist.Store('strange-node');
 
-shortcut.add("Alt+X",function(){
-		var send_post = function(){
-					if ($("#content").val() == "") {
-						return false;
-					}
+function show_shortcut_custom() {
+	$("#shortcut_custom").fadeIn();
+}
 
-				var postmessage = {
-					name: $('#showname').val()
-					,email: $('#email').val()
-					,topic: $('#topic').val()
-					,content: $('#content').val()
-					,url:$('#url').val()
-					,parentid:$('#parentid').val()
-					,postip:""
-					,reference:$('#reference').val()
-					,reference_d:$('#reference_d').val()
-				}
+var init_shortcut_custom = function() {
+	shortcutkey_get(store);
 
-				reset_postdata();
-				socket.emit('do_post',postmessage);
-				new_post_flag = true;
-			}
-	send_post();
-});
+	shortcut.add($("#shortcut_s_post").val(), function() {
+		send_post();
+	});
+	$("#show_shortcut_s_post").val("投稿(" + $("#shortcut_s_post").val() + ")");
 
-shortcut.add("Alt+Enter",function(){
-	var send_post = function(){
-					if ($("#content").val() == "") {
-						return false;
-					}
+	shortcut.add($("#shortcut_d_post").val(), function() {
+		reset_postdata();
+	});
+	$("#show_shortcut_d_post").val("消す(" + $("#shortcut_d_post").val() + ")");
 
-				var postmessage = {
-					name: $('#showname').val()
-					,email: $('#email').val()
-					,topic: $('#topic').val()
-					,content: $('#content').val()
-					,url:$('#url').val()
-					,parentid:$('#parentid').val()
-					,postip:""
-					,reference:$('#reference').val()
-					,reference_d:$('#reference_d').val()
-				}
+	shortcut.add($("#shortcut_a_read").val(),function() {
+		done_read();
+	});
+	$("#show_shortcut_a_read").text("(" + $("#shortcut_a_read").val() + ")");
 
-				reset_postdata();
-				socket.emit('do_post',postmessage);
-				new_post_flag = true;
-		}
-	send_post();
-});
+	shortcut.add($("#shortcut_show_post").val(),function() {
+		new_post_show();
+	});
+}
+init_shortcut_custom();
 
-shortcut.add("Alt+R",function(){
-	reset_postdata();
-});
+var apply_shortcut_custom = function() {
+	shortcutkey_save(store);
+	init_shortcut_custom();
+	$("#shortcut_custom").fadeOut();
+}
 
-shortcut.add("Alt+A",function(){
-	done_read();
-});
+var return_shortcut_custom = function() {
+	init_shortcut_custom();
+}
 
-shortcut.add("Alt+O",function(){
-	done_read();
-});
+var not_apply_shortcut_custom = function() {
+	$("#shortcut_custom").fadeOut();
+}
 
-shortcut.add("Alt+S",function() {
-	new_post_show();
-});
+exterior.return_shortcut_custom = return_shortcut_custom;
+exterior.apply_shortcut_custom = apply_shortcut_custom;
+exterior.not_apply_shortcut_custom = not_apply_shortcut_custom;
+
+
+})(window);
+
+

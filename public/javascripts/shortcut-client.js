@@ -1,5 +1,4 @@
 shortcut.add("Alt+1",function(){
-	location.href="/";
 });
 
 shortcut.add("Alt+0",function(){

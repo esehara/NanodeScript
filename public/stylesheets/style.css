@@ -123,17 +123,22 @@ h2 {
 	border-left: 10px solid #006060;
 }
 
-#css_custom {
+#css_custom,#shortcut_custom{
 	display:none;
 	border:2px solid #002020;	
 	margin:24px;
 }
 
-#css_custom h4 {
+#css_custom h4,#shortcut_custom h4{
 	background-color: #006060;
 	margin:0px;
 	padding:6px;
 }
+
+#shortcut_custom ul {
+	list-style:none;
+}
+
 
 #css_custom_data {
 	width:100%;

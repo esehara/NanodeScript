@@ -43,13 +43,13 @@ if parmament.linkis
       input(id="email",name="email",size="30",value="")
     p 題名　　
       input(id="topic",name="topic",size="30",value=formval.topic)
-      input(type="submit",value="投稿(Alt + (Enter or X))")
-      input(type="reset",value="消す(Alt + R)")
+      input(type="submit",value="投稿",id="show_shortcut_s_post")
+      input(type="reset",value="消す",id="show_shortcut_d_post")
       input(type="hidden",value="",id="parentid",name="parentid",value=formval.parentid)
       input(type="hidden",value="",id="reference",name="reference",value=formval.reference)
       input(type="hidden",value="",id="reference_d",name="reference_d",value=formval.reference_d)
     br
-    p 内容(Alt+P)
+    p 内容 <span id="show_shortcut_textarea"></span>
     p
       textarea(id="content",name="content",rows="5",cols="70") !{formval.content}
     br
@@ -62,6 +62,8 @@ if parmament.linkis
       input(type="checkbox",id="sound_on",onClick="soundon_save();")
       新着時には音を鳴らす ｜ 
       a(onclick="show_css_custom();") CSSをカスタマイズする
+      ｜
+      a(onclick="show_shortcut_custom();") ショートカットキーをカスタマイズする
       #css_custom
          h4 CSSをカスタマイズする
          textarea(id="css_custom_data",rows="5",cols="70")
@@ -71,6 +73,36 @@ if parmament.linkis
            a(onclick="return_css_custom();") 適応されているCSSに戻す
            ｜
            a(onclick="not_apply_css_custom();") この窓を閉じる
+      #shortcut_custom
+         h4 ショートカットキーをカスタマイズする
+         ul
+           li
+             input(id="shortcut_reflesh",  value="Alt+1") 
+             　更新
+           li
+             input(id="shortcut_reflesh_0",value="Alt+0")
+             　0件
+           li
+             input(id="shortcut_a_read"   ,value="Alt+A")
+             　既読
+           li
+             input(id="shortcut_show_post",value="Alt+S")
+             　投稿を表示
+           li
+             input(id="shortcut_s_post"   ,value="Alt+Enter")
+             　投稿する
+           li
+             input(id="shortcut_d_post"   ,value="Alt+R")
+             　消す
+           li
+             input(id="shortcut_textarea" ,value="Alt+P")
+             　テキストエリア
+         p
+          a(onclick="apply_shortcut_custom();")ショートカットキーを保存する
+          ｜
+          a(onclick="return_shortcut_custom();")適応されているショートカットに戻す
+          ｜
+          a(onclick="not_apply_shortcut_custom();")この窓を閉じる
 hr(class="whiteline",style="margin-bottom:0px;")
 p(class="link") 
   <b><a href="/information.html">広報室</a>｜<a href="/log/">過去ログ</a>｜<a href="/sp/">Smartphone</a></b>
@@ -86,11 +118,11 @@ pre(id="explain")
   !="\n\n"
   ※：新しい投稿は自動的に表示されます
 #nav
-  a(onclick="done_read()") 既読(Alt+(A or O))
+  a(onclick="done_read()") 既読<span id="show_shortcut_a_read"></span>
   ｜
-  a(href="/") 更新(Alt+1)
+  a(href="/") 更新<span id="show_shortcut_reflesh"></span>
   ｜
-  a(href="/0/") 0件(Alt+0)
+  a(href="/0/") 0件<span id="show_shortcut_reflesh_0"></span>
   ｜
   a(href="/page/" + (page + 1)) 次
 #body
