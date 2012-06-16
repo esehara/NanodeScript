@@ -17,8 +17,8 @@ var socket = _socket;
 	},6000);
 
 	setInterval(function() {
-		socket.emit("get_log_user");
-	},60 * 1000);
+		socket.emit("get_log");
+	},60 * 1000 * 2);
 
 
  socket.emit("debug","Connection Success!");
@@ -32,8 +32,9 @@ var socket = _socket;
 				$("#connect_counter").text(data.connection);
 			});
 
-			socket.on("get_log_user",function(data) {
-				$("#user_g").sparkline(data,{chartRengeMin:1});
+			socket.on("get_log",function(data) {
+				$("#user_g").sparkline(data.participater,{chartRengeMin:1});
+				$("#post_g").sparkline(data.post_counter,{chartRengeMin:1,lineColor:'yellow'});
 				console.log("GET!!");
 			});
 
@@ -73,7 +74,7 @@ var socket = _socket;
 		}
 );
 
-socket.emit("get_log_user");
+socket.emit("get_log");
 
 $('#newpost').live("reset",function(){
 	reset_postdata();

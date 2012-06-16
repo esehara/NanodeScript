@@ -412,24 +412,29 @@ var on_server = 60 * 10;
 function logarray_init(inte) {
 	var return_array = new Array(inte);
 	for(var i = 0,len = return_array.length;i < 20;i ++) {
-		return_array[i] = 1;
+		return_array[i] = 0;
 	}
 	return return_array;
 }
 
 var participater = logarray_init(18);
+var post_number  = logarray_init(18);
 
 setInterval(function(){
 	//Logger
 	console.log("[Debug] Interval test :: 10 Second");
 	participater.shift();
 	participater.push(connect_user);
+	post_number.shift();
+	post_number.push(post_counter);
+	post_counter = 0;
 }, on_server * 1000);
 
 //Socket.io
 
 var connect_user = 0;
 var connect_counter = 0;
+var post_counter = 0;
 
 var socketio = require("socket.io").listen(app);
 socketio.on('connection',function(socket){
@@ -449,8 +454,8 @@ socketio.on('connection',function(socket){
 	
 	socket.emit("reload_check",bbs.server);
 
-	socket.on("get_log_user",function() {
-		socket.emit("get_log_user",participater);
+	socket.on("get_log",function() {
+		socket.emit("get_log",{participater:participater,post_counter:post_number});
 	});
 
 	socket.on("disconnect",function(){
@@ -496,7 +501,7 @@ socketio.on('connection',function(socket){
 			,reference_d:data.reference_d
 			,score:0
 		});
-
+		post_counter ++;
 		if (broadcast_post !== false) {
 			socket.emit("newpost",broadcast_post);
 			socket.broadcast.emit("newpost",broadcast_post);
