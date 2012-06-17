@@ -8,6 +8,10 @@ body {
 	color: #EEEEEE;
 }
 
+.span_data {
+	display:none;
+}
+
 a {
 	text-decoration: underline;
 }

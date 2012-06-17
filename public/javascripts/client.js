@@ -17,7 +17,9 @@ var socket = _socket;
 	},6000);
 
 	setInterval(function() {
-		socket.emit("get_log");
+		if(typeof $("#user_g").sparkline !== "undefind") {
+			socket.emit("get_log");
+		}
 	},60 * 1000 * 2);
 
 
@@ -59,7 +61,13 @@ var socket = _socket;
 				if($("#new_post_show").length === 0) {
 					$("#body").prepend("<div id='new_post_show'><a id='new_post_showlink' onclick='new_post_show()'></a></div>");
 				}
-				$("#new_post_showlink").text("新着発言が" + new_post_data.length + "件あるよ(" + $("#shortcut_show_post").val() + ")");
+				
+				var shortcut_string = "";
+				if($("#shortcut_show_post".length !== 0)){
+					shortcut_string = "("  + $("#shortcut_show_post") + ")";
+				}
+				
+				$("#new_post_showlink").text("新着発言が" + new_post_data.length + "件あるよ" + shortcut_string);
 				sound_on = true;
 				if(new_post_flag) {
 					new_post_show();
@@ -70,12 +78,13 @@ var socket = _socket;
 			});
 		}
 );
-
-socket.emit("get_log");
+if ($("user_g").length !== 0) {
+	socket.emit("get_log");
+}
 
 $('#newpost').live("reset",function(){
 	reset_postdata();
-})
+});
 			var send_post = function(){
 					if ($("#content").val() == "") {
 						return false;
@@ -128,15 +137,11 @@ var quotetext_parser = function(text) {
 	}
 
 function new_post_render (data) {
-	var date_time = data.date.split("T");
-	date_time[0] = date_time[0].split("-");
-	date_time[1] = date_time[1].split(":");
-	data.date = new Date(parseInt(date_time[0][0]),
-						 parseInt(date_time[0][1]) - 1,
-						 parseInt(date_time[0][2]),
-						 parseInt(date_time[1][0]) + 9,
-						 parseInt(date_time[1][1]),
-						 parseInt(date_time[1][2]));
+		$("#debug").text("" + data.date);
+		var date_time = data.date.split("T");
+		date_time[0] = date_time[0].split("-");
+		date_time[1] = date_time[1].split(":");
+		data.date = new Date(parseInt(date_time[0][0]),parseInt(date_time[0][1]) - 1,parseInt(date_time[0][2]),parseInt(date_time[1][0]) + 9,parseInt(date_time[1][1]),parseInt(date_time[1][2]));
 	data.text = do_link_url(quotetext_parser(data.text));
 		if (data.url === "") {
 			var pre_url = "";
@@ -290,7 +295,10 @@ var init_shortcut_custom = function() {
 		new_post_show();
 	});
 }
+
+if (typeof shortcut !== "undefined") {
 init_shortcut_custom();
+}
 
 var apply_shortcut_custom = function() {
 	shortcutkey_save(store);

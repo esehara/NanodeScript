@@ -71,7 +71,9 @@ function shortcutkey_get(store) {
 		$("#shortcut_show_post").val(shortcut_array[5]);
 		$("#shortcut_textarea").val(shortcut_array[6]);
 	}
+	if(typeof shortcut !== "undefined") {
 		apply_shortcut_element();
+	}
 }
 
 function shortcutkey_save(store) {
