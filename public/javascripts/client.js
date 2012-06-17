@@ -58,9 +58,7 @@ var socket = _socket;
 				new_post_data[new_post_data.length] = data;
 				$("title").text("(" + new_post_data.length + ")" + bbs_title);
 				if($("#new_post_show").length === 0) {
-					$("#body").prepend(
-						"<div id='new_post_show'><a id='new_post_showlink' onclick='new_post_show()'></a></div>"
-					)
+					$("#body").prepend(" <div id='new_post_show'><a id='new_post_showlink' onclick='new_post_show()'></a></div>");
 				}
 				$("#new_post_showlink").text("新着発言が" + new_post_data.length + "件あるよ(" + $("#shortcut_show_post").val() + ")");
 				sound_on = true;

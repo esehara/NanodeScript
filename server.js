@@ -1,7 +1,3 @@
-/**
- * Module dependencies.
- */
-
 // Config
 
 process.env.TZ = "Japan";
@@ -32,8 +28,7 @@ var PostData = new Schema({
 });
 
 mongoose.model('post',PostData)
-var Post = mongoose.model("post")
-
+var Post = mongoose.model("post");
 var app = module.exports = express.createServer();
 var bbs     = {
 	 title:"やさしいわーるど＠なので"
