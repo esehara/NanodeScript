@@ -43,6 +43,7 @@ var bbs     = {
 				{name:"夕暮",url:"http://www.chararin.com/board4/cgi/main.cgi"},
 				{name:"初め",url:"http://strange.kurumi.ne.jp/bbs2.cgi"},
 				{name:"ﾘﾐｸｽ",url:"http://www.strangeworld.ne.jp/cgi-bin/remix/bbs.cgi"},
+				{name:"日向",url:"http://strangeworld.dyndns.org/cgi-bin/bbs.cgi"},
 				{name:"派生",url:"None"},
 				{name:"ふぁ",url:"http://at-fashion.jp/cgi-bin/bbs.cgi"},
 				{name:"料理",url:"http://strange-recipe.org/bbs.cgi"},

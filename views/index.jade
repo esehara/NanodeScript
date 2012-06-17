@@ -173,7 +173,12 @@ pre(id="explain")
   　
   a(href="/page/" + ((page + 1).toString())) 次
 #header
+  <!-- [if (gte IE 9)|!(IE)]><!-->
+  script(type="text/javascript",src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js")
+  <!--<![endif]-->
+  <!--[if IE 8]>
   script(type="text/javascript",src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js")
+  <![endif]-->
   script(type="text/javascript",src="/javascripts/jquery.sparkline.min.js")
   script(type="text/javascript",src="/javascripts/persist-min.js")
   script(type="text/javascript",src="/javascripts/persist-client.js")
@@ -181,6 +186,4 @@ pre(id="explain")
   script(type="text/javascript",src="/javascripts/shortcut-client.js")
   if page === 0
     script(type="text/javascript",src="/socket.io/socket.io.js")
-    <!-- [if (gte IE 9)|!(IE)]><!-->
     script(type="text/javascript",src="/javascripts/client.js")
-    <!--<![endif]-->

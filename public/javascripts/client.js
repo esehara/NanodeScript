@@ -35,7 +35,6 @@ var socket = _socket;
 			socket.on("get_log",function(data) {
 				$("#user_g").sparkline(data.participater,{chartRengeMin:1});
 				$("#post_g").sparkline(data.post_counter,{chartRengeMin:1,lineColor:'yellow'});
-				console.log("GET!!");
 			});
 
 			socket.on("reload_check",function(date){
@@ -56,9 +55,9 @@ var socket = _socket;
 			socket.on("newpost",function (data){
 				new_post_counter ++;
 				new_post_data[new_post_data.length] = data;
-				$("title").text("(" + new_post_data.length + ")" + bbs_title);
+				document.title = "(" + new_post_data.length + ")" + bbs_title;
 				if($("#new_post_show").length === 0) {
-					$("#body").prepend(" <div id='new_post_show'><a id='new_post_showlink' onclick='new_post_show()'></a></div>");
+					$("#body").prepend("<div id='new_post_show'><a id='new_post_showlink' onclick='new_post_show()'></a></div>");
 				}
 				$("#new_post_showlink").text("新着発言が" + new_post_data.length + "件あるよ(" + $("#shortcut_show_post").val() + ")");
 				sound_on = true;
@@ -107,14 +106,16 @@ $('#newpost').live("submit",function(){
 	return false;
 });
 
-exterior.new_post_show = function() {
+var new_post_show = function() {
 	for (var i = 0,len = new_post_data.length;i < len;i ++) {
 		new_post_render(new_post_data[i]);
 	}
 	$("#new_post_show").remove();
 	new_post_data = [];
-	$("title").text(bbs_title);
+	document.title = bbs_title;
 }
+
+exterior.new_post_show = new_post_show;
 
 var quotetext_parser = function(text) {
 				text = text.split("\n");
@@ -127,7 +128,15 @@ var quotetext_parser = function(text) {
 	}
 
 function new_post_render (data) {
-	data.date = new Date(data.date);
+	var date_time = data.date.split("T");
+	date_time[0] = date_time[0].split("-");
+	date_time[1] = date_time[1].split(":");
+	data.date = new Date(parseInt(date_time[0][0]),
+						 parseInt(date_time[0][1]) - 1,
+						 parseInt(date_time[0][2]),
+						 parseInt(date_time[1][0]) + 9,
+						 parseInt(date_time[1][1]),
+						 parseInt(date_time[1][2]));
 	data.text = do_link_url(quotetext_parser(data.text));
 		if (data.url === "") {
 			var pre_url = "";
@@ -163,8 +172,9 @@ function new_post_render (data) {
 					"　<a onClick='done_this_read(\"" + data._id + "\")' id='read" + data._id + "' class='read_link'>読</a>" +
 					"</p>" +
 					"<pre id='" + data._id + "'>" + data.text + pre_url + "</pre>" + "<pre>" + pre_reference + "</pre>" + 
-					"<span id='parentid" + data._id + "' style='display:none'>" + data.parentid.replace("\"","") + "<span>" +   
-					"</div>" + 
+					"<span id='parentid" + data._id + "' class='span_data'>" + 
+					data.parentid.replace("\"","") + 
+					"</span>" +   
 					"</div>"
 				);
 }
