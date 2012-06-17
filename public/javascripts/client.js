@@ -78,7 +78,7 @@ var socket = _socket;
 			});
 		}
 );
-if ($("user_g").length !== 0) {
+if ($("#user_g").length !== 0) {
 	socket.emit("get_log");
 }
 
