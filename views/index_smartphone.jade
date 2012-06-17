@@ -34,7 +34,7 @@ if parmament.linkis
             a(href="/post/" + parmament.post.reference)参考:!{parmament.post.reference_d}
       span(id="parentid" + parmament.post._id,style="display:none;") !{parmament.post.parentid}
 #form
-  form(action='/',name='postfrom',method='POST',id="newpost")
+  form(action='/sp/',name='postfrom',method='POST',id="newpost")
     p 投稿者　
       input(id="showname",name="showname",value=formval.name)
     p メール　

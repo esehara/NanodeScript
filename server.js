@@ -49,8 +49,11 @@ var bbs     = {
 				{name:"初め",url:"http://strange.kurumi.ne.jp/bbs2.cgi"},
 				{name:"ﾘﾐｸｽ",url:"http://www.strangeworld.ne.jp/cgi-bin/remix/bbs.cgi"},
 				{name:"派生",url:"None"},
+				{name:"ふぁ",url:"http://at-fashion.jp/cgi-bin/bbs.cgi"},
 				{name:"料理",url:"http://strange-recipe.org/bbs.cgi"},
 				{name:"ﾐｼﾞｮﾃ",url:"http://kontoukou.atwebpages.com/bbs.cgi"},
+				{name:"外",url:"None"},
+				{name:"PD",url:"http://pushd.org/index.html"}
 	 		]
 	}
 
@@ -577,6 +580,26 @@ function do_link_url(str) {
 	}
 	return str;
 }
+
+app.post('/sp/',function(req,res){
+	console.log(req.body);
+	if (req.body.content != "") {
+		var post_data = {
+			 name  : req.body.showname
+			,email : req.body.email
+			,title : req.body.topic
+			,text  : req.body.content
+			,url   : req.body.url
+			,parentid : req.body.parentid
+			,postip: ""
+			,reference: req.body.reference
+			,reference_d: req.body.reference_d
+			,score:0
+		}
+	}
+	save_post(post_data);
+	pre_render_index(res,undefined,"0",'index_smartphone',10,"style_mobile.css");
+});
 
 app.post('/',function(req,res){
 	console.log(req.body);
