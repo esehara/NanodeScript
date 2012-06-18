@@ -382,7 +382,7 @@ function render_index(res,post_id,formval,page,parmament,template,postnumber,css
   }
 
   Post.find({},[],{
-  skip:(postnumber * page),limit: postnumber * (page + 1),sort:{date:-1}
+  skip:(postnumber * page),limit: postnumber,sort:{date:-1}
   },function(err,posts){
   console.log(formval)
   res.render(template, {

@@ -64,7 +64,7 @@ var socket = _socket;
 				
 				var shortcut_string = "";
 				if($("#shortcut_show_post".length !== 0)){
-					shortcut_string = "("  + $("#shortcut_show_post") + ")";
+					shortcut_string = "("  + $("#shortcut_show_post").text() + ")";
 				}
 				
 				$("#new_post_showlink").text("新着発言が" + new_post_data.length + "件あるよ" + shortcut_string);
