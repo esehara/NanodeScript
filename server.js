@@ -48,14 +48,13 @@ var bbs     = {
 				{name:"ふぁ",url:"http://at-fashion.jp/cgi-bin/bbs.cgi"},
 				{name:"料理",url:"http://strange-recipe.org/bbs.cgi"},
 				{name:"ﾐｼﾞｮﾃ",url:"http://kontoukou.atwebpages.com/bbs.cgi"},
+				{name:"ﾄﾞﾙ退",url:"http://www.shigochu.org/cgi-bin/doll/bbs.cgi"},
 				{name:"外",url:"None"},
 				{name:"PD",url:"http://pushd.org/index.html"}
 	 		]
 	}
-
 console.log("[Start]" + bbs.title);
 console.log("[Start]" + bbs.server);
-
 
 // Configuration
 
@@ -66,6 +65,9 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
+  app.use(express.favicon(__dirname + '/public/favicon.ico', {
+    maxAge: 2592000000
+  }));
 });
 
 app.configure('development', function(){
