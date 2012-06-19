@@ -6,6 +6,11 @@ function load_store_data() {
 	if(store.get('soundon_check') === "true") {
 		$("#sound_on").attr("checked","checked");
 	}
+
+	if(store.get('tarenagashi') === "true") {
+		$("#tarenagashi_on").attr("checked","checked");
+	}
+	
 	$("#css_custom_data").val(store.get('custom_css'));
 	$("#custom").text(store.get('custom_css'));
 	shortcutkey_get(store);
@@ -16,6 +21,14 @@ function soundon_save() {
 		store.set('soundon_check','true');
 	} else {
 		store.set('soundon_check','false');
+	}
+}
+
+function tarenagashi_save() {
+	if($("#tarenagashi_on").is(":checked")) {
+		store.set("tarenagashi","true");
+	} else {
+		store.set("tarenagashi","false");
 	}
 }
 

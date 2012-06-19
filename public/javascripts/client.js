@@ -63,6 +63,7 @@ var socket = _socket;
 				}
 				
 				var shortcut_string = "";
+				
 				if($("#shortcut_show_post").length !== 0){
 					shortcut_string = "("  + $("#shortcut_show_post").val() + ")";
 				}
@@ -73,6 +74,10 @@ var socket = _socket;
 					new_post_show();
 					new_post_flag = false;
 					sound_on = false;
+				}
+
+				if($("#tarenagashi_on").is(":checked") && $("#new_post_showlink").length > 0) {
+					new_post_show();
 				}
 			
 			});
