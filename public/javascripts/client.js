@@ -191,7 +191,7 @@ function new_post_render (data) {
 
 exterior.done_read = function(){
 	new_post_counter = 0;
-	$("title").text(bbs_title);
+	document.title = bbs_title;
 	$(".new").removeClass("new");
 	$(".read_link").remove();
 }
@@ -200,11 +200,6 @@ exterior.done_this_read = function(postid) {
 	new_post_counter --;
 	$("#post" + postid).removeClass("new");
 	$("#read" + postid).remove();
-	if(new_post_counter > 0){
-		$("title").text("(" + new_post_counter + ")" + bbs_title);
-	} else {
-		$("title").text(bbs_title);
-	}
 }
 
 
@@ -219,6 +214,7 @@ var wink_item = function(postid) {
 }
 
 exterior.set_post = function(postid) {
+	reset_postdata();
 	var pretext = $("#" + postid).text().split("\n");
 	var parsetext = [];
 	for (var i = 0,len = pretext.length; i < len; ++i){
@@ -240,7 +236,7 @@ exterior.set_post = function(postid) {
 	$("#topic").val("＞" + $("#name" + postid).text());
 }
 
-exterior.reset_postdata= function(){
+var reset_postdata = function(){
 	$('#showname').val("");
 	$('#email').val("");
 	$('#topic').val("");
@@ -251,6 +247,8 @@ exterior.reset_postdata= function(){
 	$('#reference_d').val("");
 	$('#post_parmament').remove();
 }
+
+exterior.reset_postdata = reset_postdata;
 
 function do_link_url(str) {
 	var url = str.match(/http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-.\/?%&=]*)?/g);
