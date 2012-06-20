@@ -18,10 +18,10 @@ hr(class="whiteline")
         span.name(id="name" + post._id) !{post.name}
         span.date
          　投稿日:
-         !{render_date(post.date).getFullYear()}/!{render_date(post.date).getMonth() + 1}/!{render_date(post.date).getDate()}(!{(["日","月","火","水","木","金","土"])[render_date(post.date).getDay()]})!{render_date(post.date).getHours()}時!{post.date.getMinutes()}分!{post.date.getSeconds()}秒
+         !{utils.render_date(post.date).getFullYear()}/!{utils.render_date(post.date).getMonth() + 1}/!{utils.render_date(post.date).getDate()}(!{(["日","月","火","水","木","金","土"])[utils.render_date(post.date).getDay()]})!{utils.render_date(post.date).getHours()}時!{post.date.getMinutes()}分!{post.date.getSeconds()}秒
         　<a href="/post/!{post._id}">■</a>　<a href="/thread/!{post.parentid}">◆</a>
       pre(id=post._id)
-        span.text !{do_link_url(quotetext_parser(post.text))}
+        span.text !{utils.do_link_url(utils.quotetext_parser(post.text))}
         if post.url !== ""
           !="\n\n"
           a(href=post.url,id="url" + post._id,target="_blank") !{post.url}

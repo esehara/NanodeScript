@@ -22,10 +22,10 @@ if parmament.linkis
         span.date
           　投稿日:
         span.date(id="date" + parmament.post._id)
-          !{render_date(parmament.post.date).getFullYear()}/!{render_date(parmament.post.date).getMonth() + 1}/!{render_date(parmament.post.date).getDate()}(!{(["日","月","火","水","木","金","土"])[render_date(parmament.post.date).getDay()]})!{render_date(parmament.post.date).getHours()}時!{parmament.post.date.getMinutes()}分!{parmament.post.date.getSeconds()}秒
+          !{utils.render_date(parmament.post.date).getFullYear()}/!{utils.render_date(parmament.post.date).getMonth() + 1}/!{utils.render_date(parmament.post.date).getDate()}(!{(["日","月","火","水","木","金","土"])[utils.render_date(parmament.post.date).getDay()]})!{utils.render_date(parmament.post.date).getHours()}時!{parmament.post.date.getMinutes()}分!{parmament.post.date.getSeconds()}秒
           <a href="/thread/!{parmament.post.parentid}">◆</a>
       pre(id=parmament.post._id)
-        span.text !{do_link_url(quotetext_parser(parmament.post.text))}
+        span.text !{utils.do_link_url(utils.quotetext_parser(parmament.post.text))}
         if parmament.post.url !== ""
           !="\n\n"
           a(href=parmament.post.url,id="url" + parmament.post._id,target="_blank") !{parmament.post.url}
@@ -114,13 +114,13 @@ pre(id="explain")
         span.date
           　投稿日:
         span.date(id="date" + post._id)
-          !{render_date(post.date).getFullYear()}/!{render_date(post.date).getMonth() + 1}/!{render_date(post.date).getDate()}(!{(["日","月","火","水","木","金","土"])[render_date(post.date).getDay()]})!{render_date(post.date).getHours()}時!{post.date.getMinutes()}分!{post.date.getSeconds()}秒
+          !{utils.render_date(post.date).getFullYear()}/!{utils.render_date(post.date).getMonth() + 1}/!{utils.render_date(post.date).getDate()}(!{(["日","月","火","水","木","金","土"])[utils.render_date(post.date).getDay()]})!{utils.render_date(post.date).getHours()}時!{post.date.getMinutes()}分!{post.date.getSeconds()}秒
         if page === 0
             　<a href="#" onClick="set_post('!{post._id}');">■</a>　<a href="/thread/!{post.parentid}">◆</a>
         if page >= 1
             　<a href="/post/!{post._id}">■</a>　<a href="/thread/!{post.parentid}">◆</a>
       pre(id=post._id)
-        span.text !{do_link_url(quotetext_parser(post.text))}
+        span.text !{utils.do_link_url(utils.quotetext_parser(post.text))}
         if post.url !== ""
           !="\n\n"
           a(href=post.url,id="url" + post._id,target="_blank") !{post.url}

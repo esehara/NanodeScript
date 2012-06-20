@@ -5,7 +5,7 @@ h2= title
 ul
   for date in logs_date
     li
-      a(href="/log/" + render_date(date).getFullYear() + (plus_zero(render_date(date).getMonth() + 1)) + (plus_zero(render_date(date).getDate())))
-        !{render_date(date).getFullYear()}/!{render_date(date).getMonth() + 1}/!{render_date(date).getDate()}
+      a(href="/log/" + utils.render_date(date).getFullYear() + (plus_zero(utils.render_date(date).getMonth() + 1)) + (plus_zero(utils.render_date(date).getDate())))
+        !{utils.render_date(date).getFullYear()}/!{utils.render_date(date).getMonth() + 1}/!{utils.render_date(date).getDate()}
 #nav
   a(href="/")戻る

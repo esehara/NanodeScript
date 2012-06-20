@@ -3,9 +3,8 @@
 process.env.TZ = "Japan";
 
 // requires
-var express = require('express');
-var fs      = require('fs');
-
+var express   = require('express');
+var fs        = require('fs');
 //mongodb server
 var mongoose = require('mongoose');
 mongoose.connect("mongodb://localhost/strangeworld");
@@ -30,33 +29,14 @@ var PostData = new Schema({
 mongoose.model('post',PostData)
 var Post = mongoose.model("post");
 var app = module.exports = express.createServer();
-var bbs     = {
-	 title:"やさしいわーるど＠なので"
-	,server: new Date()
-	,link  : [
-				{name:"本店",url:"http://strangeworld-honten.com/cgi-bin/bbs.cgi"},
-				{name:"暫暫",url:"http://zangzang.poox360.net/cgi-bin/captbbs.cgi"},
-				{name:"＠苺",url:"http://strange.straw-berry.net/"},
-				{name:"上海",url:"http://qwerty.on.arena.ne.jp/cgi-bin/bbs.cgi"},
-				{name:"ﾒｲｿ" ,url:"http://meiso.s147.xrea.com/bbs.cgi"},
-				{name:"ｸﾘ島",url:"http://www.strangeworld.ne.jp/cgi-bin/bbs/bbs.cgi"},
-				{name:"夕暮",url:"http://www.chararin.com/board4/cgi/main.cgi"},
-				{name:"初め",url:"http://strange.kurumi.ne.jp/bbs2.cgi"},
-				{name:"ﾘﾐｸｽ",url:"http://www.strangeworld.ne.jp/cgi-bin/remix/bbs.cgi"},
-				{name:"日向",url:"http://strangeworld.dyndns.org/cgi-bin/bbs.cgi"},
-				{name:"派生",url:"None"},
-				{name:"ふぁ",url:"http://at-fashion.jp/cgi-bin/bbs.cgi"},
-				{name:"料理",url:"http://strange-recipe.org/bbs.cgi"},
-				{name:"ﾐｼﾞｮﾃ",url:"http://kontoukou.atwebpages.com/bbs.cgi"},
-				{name:"ﾄﾞﾙ退",url:"http://www.shigochu.org/cgi-bin/doll/bbs.cgi"},
-				{name:"外",url:"None"},
-				{name:"PD",url:"http://pushd.org/index.html"}
-	 		]
-	}
-console.log("[Start]" + bbs.title);
-console.log("[Start]" + bbs.server);
 
 // Configuration
+var configure = require('./configure.js');
+var utils = require('./utils.js').utils;
+var bbs = configure.bbs;
+
+console.log("[Start]" + bbs.title);
+console.log("[Start]" + bbs.server);
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -122,7 +102,7 @@ function render_log_index(res) {
 			title:bbs.title
 			,css_template:"style.css"
 			,logs_date: log_dates(post.date)
-			,render_date: render_date
+			,utils:utils
 			,plus_zero: function(inte) {
 				var str = inte.toString();
 				if (str.length === 1) {
@@ -149,9 +129,7 @@ function render_log_show(res,show_date) {
 			res.render('log_show',{
 				title: bbs.title + "　Date:" + show_date[1] + "/" + show_date[2] + "/" + show_date[3]
 				,posts: posts
-				,quotetext_parser: quotetext_parser
-				,do_link_url: do_link_url
-				,render_date: render_date
+				,utils:utils
 				,css_template: "style.css"
 			});
 		});
@@ -198,16 +176,13 @@ app.get('/0/',function(req,res){
 	res.render('index', {
      title:  bbs.title
   	,posts:  []
-	,do_link_url: do_link_url
-  	,quotetext_parser:  quotetext_parser
-  	,render_date: render_date
+	,utils:  utils
 	,formval: null_formval
 	,page : 0
 	,connect_user: connect_user
   	,counter_data: counter_data
   	,parmament:{linkis: false}
 	,links:bbs.link
-	,render_youtube:render_youtube
 	,css_template:'style.css'
 	});
 });
@@ -231,9 +206,7 @@ app.get('/sp/0/',function(req,res){
 	res.render('index_smartphone', {
      title:  bbs.title
   	,posts:  []
-	,do_link_url: do_link_url
-  	,quotetext_parser:  quotetext_parser
-  	,render_date: render_date
+	,utils: utils
 	,formval: null_formval
 	,page : 0
 	,connect_user: connect_user
@@ -315,7 +288,7 @@ function pre_render_index(res,post_id,page,template,postnumber,css_template) {
 				,url: ""
 				,parentid: set_parentid 
 				,reference: post._id
-				,reference_d: string_date(render_date(post.date))
+				,reference_d: string_date(utils.render_date(post.date))
 				};
 				render_index(res,post_id,formval,page,parmament,template,postnumber,css_template);
 		}});
@@ -339,33 +312,13 @@ var add_quote = function(text) {
 	return parsetext.join("\n") + "\n\n";
 }
 
-var quotetext_parser = function(text) {
-  	text = text.split("\n");
-  	for (var i = 0,len = text.length;i < len ; ++i ){
-  		if (text[i].match(/^&gt/) !== null) {
-  			text[i] = "<span class='quote'>" + text[i] + "</span>";
-  		}
-  	}
-
-  	return text.join("\n");
-
-  }
-
-function render_youtube(url) {
-	url_parse = url.match(/http(s)?:\/\/(www\.)?youtube\.com\/watch\?(.*)?v=([a-zA-Z0-9_-]+)/);
-	return "<iframe width='240' height='180' src='http://www.youtube.com/embed/" + url_parse[4] + "' frameborder='0' allowfullscreen></iframe>";
-}
-
 function render_thread(res,parent_id) {
 	Post.find({parentid: parent_id},[],{sort:{date:-1}},
 		function(err,posts){
 			res.render('thread',{
 				title: bbs.title + "　thread:" + parent_id
 				,posts: posts
-				,quotetext_parser: quotetext_parser
-				,do_link_url: do_link_url
-				,render_date: render_date
-				,render_youtube: render_youtube
+				,utils: utils
 				,css_template:"style.css"
 			});
 		});
@@ -390,16 +343,13 @@ function render_index(res,post_id,formval,page,parmament,template,postnumber,css
   res.render(template, {
      title:  bbs.title
   	,posts:  posts
-	,do_link_url: do_link_url
-  	,quotetext_parser:  quotetext_parser
-  	,render_date: render_date
+	,utils:  utils
 	,formval: formval
 	,page : page
 	,connect_user: connect_user
   	,counter_data: counter_data
 	,parmament:parmament
   	,links: bbs.link
-  	,render_youtube:render_youtube
   	,css_template:css_template
   });
   });
@@ -511,12 +461,7 @@ socketio.on('connection',function(socket){
 
 });
 	
-function render_date(target_date) {
-	return new Date(("" + target_date).replace("GMT+0000","GMT-0900"));
-}
-
 function varitation(post_data) {
-
 	function varitation_util(str,len) {
 		return (str.length < len);
 	}
@@ -559,24 +504,6 @@ function save_post(post_data) {
 			}
 	});
 	return post;
-}
-
-function do_link_url(str) {
-	var url = str.match(/http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-.\/?%&=]*)?/g);
-	if (url) {
-		var pre_replace = [];
-		for (var i = 0,len = url.length;i < len; ++i) {
-			if (str.match(url[i])) {
-				str = str.replace(url[i], "<" + pre_replace.length + ">");
-				pre_replace[pre_replace.length] = url[i];
-			}
-		}
-
-		for (var i = 0,len = pre_replace.length;i < len; ++i) {
-			str = str.replace("<" + i + ">","<a href='" + pre_replace[i] + "' target='_blank'>" + pre_replace[i] + "</a>");
-		}
-	}
-	return str;
 }
 
 app.post('/sp/',function(req,res){
@@ -624,4 +551,3 @@ app.post('/',function(req,res){
 function escapeHTML(str) {
 	return str.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
-
