@@ -11,7 +11,7 @@ var socket = _socket;
 	setInterval(function(){
 		if(sound_on && $("#sound_on").is(":checked") ){
 			$('embed').remove();
-			$('body').append('<embed src="/sound/new.wav" autostart="true" hidden="true" loop="false">');
+			$('body').append('<embed src="/sound/' + $("#sound_select").val() + '" autostart="true" hidden="true" loop="false">');
 		}
 		sound_on = false;
 	},6000);

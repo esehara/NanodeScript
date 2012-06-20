@@ -60,7 +60,11 @@ if parmament.linkis
       接続累計(サーバー起動時から):<span id="connect_counter">!{counter_data.connection}</span>　投稿推移:<span id="post_g"></span>　現在の参加者:<span id="user_counter">!{connect_user}</span>人 <span id="user_g"></span>
     pre
       input(type="checkbox",id="sound_on",onClick="soundon_save();")
-      新着時には音を鳴らす ｜ 
+      新着時には音を鳴らす ｜ 使う音を決める 
+      select(id="sound_select",onChange="soundselect_save();")
+          option(value="new.wav") キュイーン
+          option(value="rain.wav") 水
+          option(value="cat.wav") ぬこ
       input(type="checkbox",id="tarenagashi_on",onClick="tarenagashi_save();")
       新着投稿はそのまま流す
     pre
