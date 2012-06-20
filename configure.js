@@ -19,7 +19,7 @@ exports.bbs     = {
 				{name:"ﾄﾞﾙ退",url:"http://www.shigochu.org/cgi-bin/doll/bbs.cgi"},
 				{name:"外",url:"None"},
 				{name:"PD",url:"http://pushd.org/index.html"},
-	 			{name:"なので日報",url:""}
+	 			{name:"なので日報",url:"http://www.chararin.com/board4/cgi/blogmain.cgi?BoardIdx=1123"}
 	 		]
 	}
 
