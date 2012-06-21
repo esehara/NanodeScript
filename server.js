@@ -34,6 +34,21 @@ var app = module.exports = express.createServer();
 var configure = require('./configure.js');
 var utils = require('./utils.js').utils;
 var bbs = configure.bbs;
+var null_formval = function() {
+	return {
+		 name: ""
+		,email: ""
+		,topic: ""
+		,parentid:""
+		,content:""
+		,url:""
+		,reference:""
+		,reference_d:""
+	}
+};
+
+
+
 
 console.log("[Start]" + bbs.title);
 console.log("[Start]" + bbs.server);
@@ -158,17 +173,6 @@ app.get('/sp/page/:page',function(req,res){
 });
 
 app.get('/0/',function(req,res){
-	var null_formval = {
-		 name: ""
-		,email: ""
-		,topic: ""
-		,parentid:""
-		,content:""
-		,url:""
-		,reference:""
-		,reference_d:""
-	}
-
   	var counter_data = {
     	connection:connect_counter
   	}
@@ -177,7 +181,7 @@ app.get('/0/',function(req,res){
      title:  bbs.title
   	,posts:  []
 	,utils:  utils
-	,formval: null_formval
+	,formval: null_formval()
 	,page : 0
 	,connect_user: connect_user
   	,counter_data: counter_data
@@ -188,16 +192,6 @@ app.get('/0/',function(req,res){
 });
 
 app.get('/sp/0/',function(req,res){
-	var null_formval = {
-		 name: ""
-		,email: ""
-		,topic: ""
-		,parentid:""
-		,content:""
-		,url:""
-		,reference:""
-		,reference_d:""
-	}
 
   	var counter_data = {
     	connection:connect_counter
@@ -207,13 +201,12 @@ app.get('/sp/0/',function(req,res){
      title:  bbs.title
   	,posts:  []
 	,utils: utils
-	,formval: null_formval
+	,formval: null_formval()
 	,page : 0
 	,connect_user: connect_user
   	,counter_data: counter_data
   	,parmament:{linkis: false}
 	,links:bbs.link
-	,render_youtube:render_youtube
 	,css_template:'style_mobile.css'
 	});
 });
@@ -247,26 +240,16 @@ function pre_render_index(res,post_id,page,template,postnumber,css_template) {
 		postnumber = 30;
 	}
 
-	var null_formval = {
-		 name: ""
-		,email: ""
-		,topic: ""
-		,parentid:""
-		,content:""
-		,url:""
-		,reference:""
-		,reference_d:""
-	}
 	var parmament = {
 		 linkis:false
 		,post:undefined
 	}
 	if (typeof post_id === "undefined") {
-		render_index(res,post_id,null_formval,page,parmament,template,postnumber,css_template);
+		render_index(res,post_id,null_formval(),page,parmament,template,postnumber,css_template);
 	} else {
 		Post.findOne({_id:post_id},function(err,post){
 			if (post === null) {
-				render_index(res,post_id,null_formval,page,parmament,postnumber,css_template);
+				render_index(res,post_id,null_formval(),page,parmament,postnumber,css_template);
 			} else {
 				console.log(post);
 				if (post.parentid !== "") {
