@@ -59,7 +59,15 @@ if parmament.linkis
     p(class="user") 現在の参加者:<span id="user_counter">!{connect_user}</span>人
     pre
       input(type="checkbox",id="sound_on",onClick="soundon_save();")
-      新着時には音を鳴らす ｜ 
+      新着時には音を鳴らす ｜ 使う音を決める 
+      select(id="sound_select",onChange="soundselect_save();")
+          option(value="new.wav") キュイーン
+          option(value="rain.wav") 水
+          option(value="cat.wav") ぬこ
+          option(value="whistle.wav") 蒸気
+          option(value="jackhammer.wav") ドリル
+          option(value="keyboard.wav") キーボード
+          option(value="regi.wav") レジ 
       a(onclick="show_css_custom();") CSSをカスタマイズする
       #css_custom
          h4 CSSをカスタマイズする
