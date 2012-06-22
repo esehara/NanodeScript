@@ -25,7 +25,7 @@ function soundon_save() {
 }
 
 function soundselect_save() {
-	$('body').append('<embed src="/sound/' + $("#sound_select").val() + '" autostart="true" hidden="true" loop="false">');
+	sound_play();
 	store.set('sound_select',$("#sound_select").val());
 }
 

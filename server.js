@@ -117,7 +117,7 @@ function render_log_index(res) {
 			title:bbs.title
 			,css_template:"style.css"
 			,logs_date: log_dates(post.date)
-			,utils:utils
+			,utils:utils()
 			,plus_zero: function(inte) {
 				var str = inte.toString();
 				if (str.length === 1) {
@@ -144,7 +144,7 @@ function render_log_show(res,show_date) {
 			res.render('log_show',{
 				title: bbs.title + "　Date:" + show_date[1] + "/" + show_date[2] + "/" + show_date[3]
 				,posts: posts
-				,utils:utils
+				,utils:utils()
 				,css_template: "style.css"
 			});
 		});
@@ -180,7 +180,7 @@ app.get('/0/',function(req,res){
 	res.render('index', {
      title:  bbs.title
   	,posts:  []
-	,utils:  utils
+	,utils:  utils()
 	,formval: null_formval()
 	,page : 0
 	,connect_user: connect_user
@@ -200,7 +200,7 @@ app.get('/sp/0/',function(req,res){
 	res.render('index_smartphone', {
      title:  bbs.title
   	,posts:  []
-	,utils: utils
+	,utils: utils()
 	,formval: null_formval()
 	,page : 0
 	,connect_user: connect_user
@@ -271,7 +271,7 @@ function pre_render_index(res,post_id,page,template,postnumber,css_template) {
 				,url: ""
 				,parentid: set_parentid 
 				,reference: post._id
-				,reference_d: string_date(utils.render_date(post.date))
+				,reference_d: string_date(utils().render_date(post.date))
 				};
 				render_index(res,post_id,formval,page,parmament,template,postnumber,css_template);
 		}});
@@ -288,7 +288,7 @@ var add_quote = function(text) {
 	var pretext = text.split("\n");
 	var parsetext = [];
 	for (var i = 0,len = pretext.length; i < len; ++i){
-		if (pretext[i] !== "" && pretext[i].match(/^(&gt; &gt; &gt;)/) === null) {
+		if (pretext[i] !== "" && pretext[i].match(/^(&gt; &gt; )/) === null) {
 			parsetext[parsetext.length] = "> " + pretext[i];
 		}
 	}
@@ -301,7 +301,7 @@ function render_thread(res,parent_id) {
 			res.render('thread',{
 				title: bbs.title + "　thread:" + parent_id
 				,posts: posts
-				,utils: utils
+				,utils: utils()
 				,css_template:"style.css"
 			});
 		});
@@ -326,7 +326,7 @@ function render_index(res,post_id,formval,page,parmament,template,postnumber,css
   res.render(template, {
      title:  bbs.title
   	,posts:  posts
-	,utils:  utils
+	,utils:  utils()
 	,formval: formval
 	,page : page
 	,connect_user: connect_user
@@ -424,17 +424,17 @@ socketio.on('connection',function(socket){
 
 	socket.on("do_post",function(data){
 		var broadcast_post = save_post({
-			 name:  data.name
-			,title: data.topic
-			,text:  data.content
-			,url :  data.url
-			,email: data.email
-			,parentid : data.parentid
-			,postip:""
-			,reference:data.reference
-			,reference_d:data.reference_d
-			,score:0
-		});
+				 name:  data.name
+				,title: data.topic
+				,text:  data.content
+				,url :  data.url
+				,email: data.email
+				,parentid : data.parentid
+				,postip:""
+				,reference:data.reference
+				,reference_d:data.reference_d
+				,score:0
+			});
 		post_counter ++;
 		if (broadcast_post !== false) {
 			socket.emit("newpost",broadcast_post);
@@ -504,8 +504,14 @@ app.post('/sp/',function(req,res){
 			,reference_d: req.body.reference_d
 			,score:0
 		}
+	
+		if(isNotSpam(req.body.deny_spam_value,req.body.deny_spam)){
+			console.log("Deny Spam Value --> " + req.body.deny_spam_value);
+			console.log("Deny Spam Input --> " + req.body.deny_spam);
+			save_post(post_data);
+		}
 	}
-	save_post(post_data);
+		
 	pre_render_index(res,undefined,"0",'index_smartphone',10,"style_mobile.css");
 });
 
@@ -524,8 +530,12 @@ app.post('/',function(req,res){
 			,reference_d: req.body.reference_d
 			,score:0
 		}
+		console.log("Deny Spam Value --> " + req.body.deny_spam_value);
+		console.log("Deny Spam Input --> " + req.body.deny_spam);
+		if(isNotSpam(req.body.deny_spam_value,req.body.deny_spam)){
+			save_post(post_data);
+		}
 	}
-	save_post(post_data);
 	pre_render_index(res,undefined,"0");
 });
 
@@ -533,4 +543,39 @@ app.post('/',function(req,res){
 
 function escapeHTML(str) {
 	return str.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function isNotSpam (value,input_key) {
+	var ReplaceAll = function(str,target,restr) {
+		return str.split(target).join(restr);
+	}
+	if(value == "" || value.match(/[1-9a-zA-Z]/) !== null) {
+		return false;
+	} else {
+		var replace_key = [
+					["いち","1"]
+					,["に","2"]
+					,["さん","3"]
+					,["し","4"]
+					,["ご","5"]
+					,["ろく","6"]
+					,["なな","7"]
+					,["はち","8"]
+					,["きゅう","9"]
+					,["ぜろ","0"]
+				]
+		for(var i = 0,len = replace_key.length; i < len; i ++) {
+			value = ReplaceAll(value,replace_key[i][0],replace_key[i][1]);
+		}
+		console.log("Replace value!! --> " + value);
+		if(value.match(/[^0-9]/) !== null) {
+			return false;
+		} else {
+			if(value === input_key) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
 }

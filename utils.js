@@ -36,9 +36,24 @@ var render_youtube = function(url) {
 	return "<iframe width='240' height='180' src='http://www.youtube.com/embed/" + url_parse[4] + "' frameborder='0' allowfullscreen></iframe>";
 }
 
-exports.utils = {
+var spam_filter = function() {
+		var return_random = function(inte) {
+			return Math.floor(Math.random() * inte);
+		}
+		var spam_string = ["いち","に","さん","し","ご","ろく","なな","はち","きゅう","ぜろ"];
+		var return_string = "";
+		for (var i = 0,len = spam_string.length;i < 4;i ++) {
+			return_string = return_string + spam_string[return_random(len)];
+		}
+		return return_string;
+}
+
+exports.utils = function() {
+	return {
 	 do_link_url:do_link_url
 	,render_date:render_date
 	,quotetext_parser:quotetext_parser
 	,render_youtube:render_youtube
+	,spam_filter:spam_filter()
+	}
 }

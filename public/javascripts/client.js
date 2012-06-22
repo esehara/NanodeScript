@@ -10,8 +10,7 @@ var new_post_flag = false;
 var socket = _socket;
 	setInterval(function(){
 		if(sound_on && $("#sound_on").is(":checked") ){
-			$('embed').remove();
-			$('body').append('<embed src="/sound/' + $("#sound_select").val() + '" autostart="true" hidden="true" loop="false">');
+			sound_play();
 		}
 		sound_on = false;
 	},6000);
@@ -90,26 +89,29 @@ if ($("#user_g").length !== 0) {
 $('#newpost').live("reset",function(){
 	reset_postdata();
 });
-			var send_post = function(){
-					if ($("#content").val() == "") {
-						return false;
-					}
+	var send_post = function(){
+			if ($("#content").val() == "") {
+				return false;
+			}
 
-				var postmessage = {
-					name: $('#showname').val()
-					,email: $('#email').val()
-					,topic: $('#topic').val()
-					,content: $('#content').val()
-					,url:$('#url').val()
-					,parentid:$('#parentid').val()
-					,postip:""
-					,reference:$("#reference").val()
-					,reference_d:$("#reference_d").val()
-				}
-				reset_postdata();
-				socket.emit('do_post',postmessage);
-				new_post_flag = true;
-			};
+		var postmessage = {
+				name: $('#showname').val()
+				,email: $('#email').val()
+				,topic: $('#topic').val()
+				,content: $('#content').val()
+				,url:$('#url').val()
+				,parentid:$('#parentid').val()
+				,postip:""
+				,reference:$("#reference").val()
+				,reference_d:$("#reference_d").val()
+				,deny_spam_value:$("#deny_spam_value").text()
+				,deny_spam:$("#deny_spam").val()
+			}
+		
+		reset_postdata();
+		socket.emit('do_post',postmessage);
+		new_post_flag = true;
+	};
 
 
 $('#newpost').live("submit",function(){
@@ -218,7 +220,7 @@ exterior.set_post = function(postid) {
 	var pretext = $("#" + postid).text().split("\n");
 	var parsetext = [];
 	for (var i = 0,len = pretext.length; i < len; ++i){
-		if (pretext[i] !== "" && pretext[i].match(/^(> > > )/) === null){
+		if (pretext[i] !== "" && pretext[i].match(/^(> > )/) === null){
 			parsetext[parsetext.length] = "> " + pretext[i];
 		}
 	}
@@ -245,7 +247,9 @@ var reset_postdata = function(){
 	$('#parentid').val("");
 	$('#reference').val("");
 	$('#reference_d').val("");
+	$('#deny_spam').val("");
 	$('#post_parmament').remove();
+
 }
 
 exterior.reset_postdata = reset_postdata;
@@ -320,8 +324,7 @@ var not_apply_shortcut_custom = function() {
 exterior.return_shortcut_custom = return_shortcut_custom;
 exterior.apply_shortcut_custom = apply_shortcut_custom;
 exterior.not_apply_shortcut_custom = not_apply_shortcut_custom;
-
-
+$("#spam_filter").css("display","none");
 })(window);
 
 

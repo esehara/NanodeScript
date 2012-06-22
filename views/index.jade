@@ -56,6 +56,12 @@ if parmament.linkis
     p URL(Youtubeへのリンクを貼ると動画を埋め込みます)
     p
       input(id="url",name="url",size="70")
+    #spam_filter
+      p スパム避け(JavaScript Off時、2ページ目以降)
+      p
+        input(id="deny_spam",name="deny_spam") 
+        input(id="deny_spam_value",name="deny_spam_value",style="display:none;",value=utils.spam_filter)
+        span(id="deny_spam_value") !{utils.spam_filter}
     p(class="user")
       接続累計(サーバー起動時から):<span id="connect_counter">!{counter_data.connection}</span>　投稿推移:<span id="post_g"></span>　現在の参加者:<span id="user_counter">!{connect_user}</span>人 <span id="user_g"></span>
     pre
@@ -194,6 +200,8 @@ pre(id="explain")
   script(type="text/javascript",src="/javascripts/persist-min.js")
   script(type="text/javascript",src="/javascripts/persist-client.js")
   script(type="text/javascript",src="/javascripts/shortcut.js")
+  script(type="text/javascript",src="/javascripts/deny_spam.js")
   if page === 0
     script(type="text/javascript",src="/socket.io/socket.io.js")
     script(type="text/javascript",src="/javascripts/client.js")
+    script(type="text/javascript",src="/javascripts/soundplay.js")
